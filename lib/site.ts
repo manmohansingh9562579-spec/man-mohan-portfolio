@@ -3,7 +3,7 @@ export const site = {
   role: 'Software Developer · Computer Science',
   location: 'Indore, India',
   university: 'Medi-Caps University',
-  email: '', // Add your public contact email here to enable the mailto fallback.
+  email: 'manmohansingh9562579@gmail.com',
   github: 'https://github.com/manmohansingh9562579-spec',
   linkedin: 'https://www.linkedin.com/in/manmohansinghx/',
   resume: '/resume/man-mohan-singh-resume.pdf',
