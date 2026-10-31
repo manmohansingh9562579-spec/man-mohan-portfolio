@@ -59,6 +59,7 @@ export default function Portfolio() {
   const [scroll, setScroll] = useState(0);
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [formMessage, setFormMessage] = useState('');
+  const [sending, setSending] = useState(false);
   const [active, setActive] = useState('');
 
   useEffect(() => {
@@ -84,13 +85,22 @@ export default function Portfolio() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!form.name.trim() || !/^\S+@\S+\.\S+$/.test(form.email) || !form.message.trim()) { setFormMessage('Please complete all fields with a valid email address.'); return; }
-    const subject = encodeURIComponent(`Portfolio enquiry from ${form.name}`);
-    const body = encodeURIComponent(`${form.message}\n\nFrom: ${form.name}\nEmail: ${form.email}`);
-    if (site.email) { window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`; setFormMessage('Your email app is opening with the message prepared.'); }
-    else { setFormMessage('Form validated. Add your email in lib/site.ts to enable the email action.'); }
+    if (!form.name.trim() || !/^\S+@\S+\.\S+$/.test(form.email) || form.message.trim().length < 10) { setFormMessage('Please enter your name, a valid email and a message of at least 10 characters.'); return; }
+    setSending(true); setFormMessage('');
+    try {
+      const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
+      if (res.ok) { setForm({ name: '', email: '', message: '' }); setFormMessage('Thanks, your message has been sent.'); return; }
+      const data = await res.json().catch(() => ({}));
+      if (res.status === 503 && site.email) {
+        const subject = encodeURIComponent(`Portfolio enquiry from ${form.name}`);
+        const body = encodeURIComponent(`${form.message}\n\nFrom: ${form.name}\nEmail: ${form.email}`);
+        window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`;
+        setFormMessage('Your email app is opening with the message prepared.');
+      } else { setFormMessage(data.error || 'Unable to send your message. Please try again.'); }
+    } catch { setFormMessage('Network error. Please try again or connect through GitHub or LinkedIn.'); }
+    finally { setSending(false); }
   };
 
   return <>
@@ -126,7 +136,7 @@ export default function Portfolio() {
 
       <section className="explore-section"><div className="section-shell explore-inner"><Reveal><div className="section-label light-label">IN THE WORKSHOP</div><h2 className="section-heading light-heading">Currently<br/><em>exploring.</em></h2></Reveal><Reveal delay={.1}><div className="explore-tags">{['Data Structures & Algorithms','Java + Python','Full-Stack Engineering','Backend Development','AI-powered applications','Real-world software'].map((x,i)=><span key={x}><small>0{i+1}</small>{x}<ArrowUpRight size={14}/></span>)}</div></Reveal></div></section>
 
-      <section className="contact-section section-shell" id="contact"><Reveal><div className="section-label">05 / CONTACT</div><div className="contact-title"><h2>Have an idea?<br/><em>Let’s make it real.</em></h2><p>Interested in collaborating, discussing technology or building something useful? I’d be glad to connect.</p></div></Reveal><div className="contact-grid"><Reveal><div className="contact-links"><a href={site.linkedin} target="_blank" rel="noreferrer"><span>LINKEDIN</span><b>Connect professionally</b><ArrowUpRight/></a><a href={site.github} target="_blank" rel="noreferrer"><span>GITHUB</span><b>Explore my code</b><ArrowUpRight/></a><div className="contact-location"><MapPin size={17}/><span>Indore, India</span></div></div></Reveal><Reveal delay={.12}><form className="contact-form" onSubmit={submit}><label>Your name<input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Name" required/></label><label>Email address<input type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="you@example.com" required/></label><label>What’s on your mind?<textarea value={form.message} onChange={e=>setForm({...form,message:e.target.value})} placeholder="Tell me a little about it..." rows={3} required/></label><button type="submit">Prepare message <Send size={15}/></button>{formMessage && <p className="form-message" role="status">{formMessage}</p>}</form></Reveal></div></section>
+      <section className="contact-section section-shell" id="contact"><Reveal><div className="section-label">05 / CONTACT</div><div className="contact-title"><h2>Have an idea?<br/><em>Let’s make it real.</em></h2><p>Interested in collaborating, discussing technology or building something useful? I’d be glad to connect.</p></div></Reveal><div className="contact-grid"><Reveal><div className="contact-links"><a href={site.linkedin} target="_blank" rel="noreferrer"><span>LINKEDIN</span><b>Connect professionally</b><ArrowUpRight/></a><a href={site.github} target="_blank" rel="noreferrer"><span>GITHUB</span><b>Explore my code</b><ArrowUpRight/></a><div className="contact-location"><MapPin size={17}/><span>Indore, India</span></div></div></Reveal><Reveal delay={.12}><form className="contact-form" onSubmit={submit}><label>Your name<input value={form.name} onChange={e=>setForm({...form,name:e.target.value})} placeholder="Name" required/></label><label>Email address<input type="email" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} placeholder="you@example.com" required/></label><label>What’s on your mind?<textarea value={form.message} onChange={e=>setForm({...form,message:e.target.value})} placeholder="Tell me a little about it..." rows={3} required/></label><button type="submit" disabled={sending}>{sending ? 'Sending...' : 'Send message'} <Send size={15}/></button>{formMessage && <p className="form-message" role="status">{formMessage}</p>}</form></Reveal></div></section>
     </main>
     <footer className="footer"><div className="footer-top"><a href="#home" className="wordmark">MAN MOHAN SINGH<span>✳</span></a><span>MADE WITH CURIOSITY · {new Date().getFullYear()}</span><a href="#home" className="back-top">BACK TO TOP <ArrowUpRight size={14}/></a></div><div className="footer-bottom"><span>© {new Date().getFullYear()} MAN MOHAN SINGH</span><span>DESIGNED TO KEEP MOVING.</span><div><a href={site.github}>GITHUB</a><a href={site.linkedin}>LINKEDIN</a></div></div></footer>
   </>;

@@ -6,7 +6,7 @@ export const site = {
   email: '', // Add your public contact email here.
   github: 'https://github.com/manmohansingh9562579-spec',
   linkedin: 'https://www.linkedin.com/in/manmohansinghx/',
-  resume: '', // Add /resume/man-mohan-singh.pdf when your PDF is ready.
+  resume: '/resume/man-mohan-singh-resume.pdf',
 };
 
 export const projects = [
