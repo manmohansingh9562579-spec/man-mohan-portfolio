@@ -35,7 +35,7 @@ function Portrait() {
     <motion.div className="portrait-orbit orbit-two" animate={{ rotate: -360 }} transition={{ duration: 58, repeat: Infinity, ease: 'linear' }} />
     <motion.div className="portrait-halo" animate={{ scale: [1, 1.035, 1], opacity: [.65, .9, .65] }} transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }} />
     <motion.div className="portrait-card" style={{ rotateX, rotateY }}>
-      <Image src="/images/profile.png" alt="Portrait used for Man Mohan Singh's portfolio" fill priority sizes="(max-width: 800px) 90vw, 46vw" className="portrait-image" />
+      <Image src="/images/profile.jpg" alt="Portrait of Man Mohan Singh" fill priority sizes="(max-width: 800px) 90vw, 46vw" className="portrait-image" />
       <div className="portrait-index">MM / 01</div>
     </motion.div>
     <motion.div className="float-note note-top" animate={{ y: [0, -9, 0] }} transition={{ duration: 5, repeat: Infinity }}>BUILDING WITH INTENTION</motion.div>
