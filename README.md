@@ -42,7 +42,7 @@ All three are needed for server-side delivery. Without them, `/api/contact` retu
 
 Site content lives in `lib/site.ts` (name, links, resume path, email, skills, education, activities, projects). Each page section is its own component in `components/`.
 
-- Replace `public/images/profile.jpg` to change the portrait (use a plain white or light background; it is blended into the page colour).
+- Replace `public/images/profile.jpg` to change the portrait.
 - Replace `public/resume/man-mohan-singh-resume.pdf` to update the resume.
 - Set `email` in `lib/site.ts` to enable the mailto fallback.
 - Check the project links in `lib/site.ts` (TeamForge live and repository URLs, TrodoMiles URLs).
