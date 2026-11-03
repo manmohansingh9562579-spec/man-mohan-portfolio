@@ -49,7 +49,7 @@ Without the Resend variables `/api/contact` returns `503` and the site still bui
 - `public/images/profile-cutout.webp`: portrait with a transparent background (the original is `profile.jpg`).
 - `public/resume/man-mohan-singh-resume.pdf`: resume.
 
-Project previews are original artwork, labelled "preview artwork", not screenshots. Add real screenshots to `public/projects/` and reference them in `components/ProjectVisual.tsx` when available.
+Project previews are real screenshots of the live sites in `public/projects/` (`teamforge.webp`, `trodomiles.webp`). Replace the files to update them.
 
 ## Structure
 

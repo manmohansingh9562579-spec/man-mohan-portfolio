@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 
-/** Original artwork for each project (not a screenshot). It is labelled as such on the card. */
+/** Fallback artwork, no longer used now that real screenshots exist. */
 function Art({ slug }: { slug: string }) {
   if (slug === 'teamforge') {
     const nodes = [[120, 120], [300, 70], [470, 150], [620, 90], [220, 280], [400, 320], [590, 280], [700, 200]];
@@ -51,15 +51,16 @@ export default function ProjectVisual({ slug, className = '' }: { slug: string; 
   const y = useTransform(scrollYProgress, [0, 1], ['-7%', '7%']);
 
   return (
-    <div ref={ref} className={`relative aspect-[16/10] ${className}`}>
+    <div ref={ref} className={`relative aspect-[2/1] ${className}`}>
       <motion.div
         className="absolute inset-0 overflow-hidden rounded-2xl border border-line bg-surface"
         initial={{ clipPath: 'inset(0 100% 0 0)' }}
         animate={{ clipPath: inView ? 'inset(0 0% 0 0)' : 'inset(0 100% 0 0)' }}
         transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
       >
-        <motion.div className="absolute inset-0 scale-[1.15]" style={{ y }}><Art slug={slug} /></motion.div>
-        <span className="absolute bottom-3 left-4 rounded-full bg-bg/70 px-3 py-1 font-mono text-[10px] tracking-widest text-muted backdrop-blur">PREVIEW ARTWORK</span>
+        <motion.div className="absolute inset-0 scale-[1.06]" style={{ y }}>{/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`/projects/${slug}.webp`} alt={`${slug === 'teamforge' ? 'TeamForge' : 'TrodoMiles'} home page screenshot`} className="h-full w-full object-cover object-top" loading="lazy" /></motion.div>
+        <span className="absolute bottom-3 left-4 rounded-full bg-bg/70 px-3 py-1 font-mono text-[10px] tracking-widest text-muted backdrop-blur">LIVE SCREENSHOT</span>
       </motion.div>
     </div>
   );
