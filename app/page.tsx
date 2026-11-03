@@ -1,9 +1,13 @@
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
-import Skills from '@/components/Skills';
-import Education from '@/components/Education';
+import About from '@/components/About';
+import TechStack from '@/components/TechStack';
 import Projects from '@/components/Projects';
-import Activities from '@/components/Activities';
+import EngineeringLab from '@/components/EngineeringLab';
+import Building from '@/components/Building';
+import Experience from '@/components/Experience';
+import Achievements from '@/components/Achievements';
+import GitHubSection from '@/components/GitHubSection';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 
@@ -13,10 +17,14 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <Skills />
-        <Education />
+        <About />
+        <TechStack />
         <Projects />
-        <Activities />
+        <EngineeringLab />
+        <Building />
+        <Experience />
+        <Achievements />
+        <GitHubSection />
         <Contact />
       </main>
       <Footer />

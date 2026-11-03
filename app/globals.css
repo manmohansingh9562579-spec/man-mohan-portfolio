@@ -1,43 +1,101 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Poppins:wght@400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Design tokens. Colours are stored as "R G B" channels so Tailwind opacity modifiers work (bg-accent/20). */
 :root {
-  --bg: #f7f7fc;
-  --surface: #ffffff;
-  --ink: #1b1b2f;
-  --muted: #5d5f7a;
-  --line: #e4e4f0;
-  --accent: #5b4bdb;
-  --accent-soft: #ecebfd;
+  --bg: 246 247 251;          /* pearl white */
+  --surface: 255 255 255;
+  --ink: 30 36 51;            /* slate */
+  --muted: 90 100 120;
+  --line: 223 227 238;
+  --accent: 37 99 235;        /* electric blue */
+  --accent2: 124 58 237;      /* violet */
+  --on-accent: 255 255 255;
+  --accent-soft: 232 239 255;
 }
 
 :root[data-theme='dark'] {
-  --bg: #11121c;
-  --surface: #191a28;
-  --ink: #ececf6;
-  --muted: #a1a3bd;
-  --line: #2a2c40;
-  --accent: #8f83ff;
-  --accent-soft: #23223d;
+  --bg: 7 10 20;              /* midnight */
+  --surface: 14 20 36;        /* deep navy */
+  --ink: 232 236 248;
+  --muted: 139 148 179;
+  --line: 29 37 64;
+  --accent: 59 130 246;
+  --accent2: 139 92 246;
+  --on-accent: 255 255 255;
+  --accent-soft: 20 30 58;
 }
 
-html { scroll-behavior: smooth; scroll-padding-top: 80px; }
-body { background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; }
-::selection { background: var(--accent); color: #fff; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; color-scheme: light; }
+html[data-theme='dark'] { color-scheme: dark; }
+body { background: rgb(var(--bg)); color: rgb(var(--ink)); -webkit-font-smoothing: antialiased; }
+html, body { overflow-x: clip; max-width: 100%; }
+::selection { background: rgb(var(--accent)); color: rgb(var(--on-accent)); }
+
+/* Atmospheric lighting behind the whole page */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(55% 45% at 85% 0%, rgb(var(--accent) / 0.16), transparent 70%),
+    radial-gradient(45% 40% at 0% 35%, rgb(var(--accent2) / 0.11), transparent 70%);
+}
+
+/* Short colour transition when the theme is toggled */
+html.theme-transition *, html.theme-transition *::before, html.theme-transition *::after {
+  transition: background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease, fill 0.45s ease, stroke 0.45s ease !important;
+}
 
 @layer components {
-  .section { @apply mx-auto w-full max-w-6xl px-6 py-20 md:py-24; }
-  .section-title { @apply text-3xl font-semibold tracking-tight md:text-4xl; }
-  .card { @apply rounded-2xl border border-line bg-surface p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg; }
-  .btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition duration-200; }
-  .btn-solid { @apply btn bg-accent text-white hover:opacity-90; }
-  .btn-outline { @apply btn border border-accent text-accent hover:bg-accent hover:text-white; }
+  .section { @apply mx-auto w-full max-w-6xl overflow-x-clip px-6 py-20 md:py-28; }
+  .eyebrow { @apply font-mono text-xs uppercase tracking-[0.22em] text-accent; }
+  .section-title { @apply font-display text-3xl font-semibold tracking-tight md:text-5xl; }
+  .card { @apply rounded-2xl border border-line bg-surface/80 p-6 shadow-sm backdrop-blur transition duration-300; }
+  .card-hover { @apply hover:-translate-y-1 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/10; }
+  .btn { @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-6 py-3 text-sm font-medium transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent; }
+  .btn-solid { @apply btn bg-accent text-on-accent hover:brightness-110; }
+  .btn-outline { @apply btn border border-line bg-surface/60 text-ink hover:border-accent hover:text-accent; }
   .chip { @apply inline-flex items-center rounded-full border border-line bg-accent-soft px-3 py-1.5 text-xs font-medium text-ink; }
+  .icon-btn { @apply grid h-11 w-11 place-items-center rounded-full border border-line bg-surface/60 text-ink transition hover:border-accent hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent; }
+  .grad-text { background: linear-gradient(100deg, rgb(var(--accent)), rgb(var(--accent2))); -webkit-background-clip: text; background-clip: text; color: transparent; }
 }
+
+/* Sheen across solid buttons on hover */
+.btn-solid::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+  transform: translateX(-120%);
+}
+.btn-solid:hover::after { transform: translateX(120%); transition: transform 0.7s ease; }
+
+@keyframes float-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+.float-y { animation: float-y 8s ease-in-out infinite; }
+
+@keyframes flow { to { stroke-dashoffset: -24; } }
+.flow-line { stroke-dasharray: 6 6; animation: flow 1.2s linear infinite; }
+
+@keyframes scroll-dot { 0% { transform: translateY(0); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(16px); opacity: 0; } }
+.scroll-dot { animation: scroll-dot 1.8s ease-in-out infinite; }
+
+/* SVG helpers that follow the theme */
+.svg-ink { fill: rgb(var(--ink)); }
+.svg-muted { fill: rgb(var(--muted)); }
+.svg-node { fill: rgb(var(--surface)); stroke: rgb(var(--line)); stroke-width: 1.5; transition: stroke 0.25s, filter 0.25s; }
+.svg-node-active { stroke: rgb(var(--accent)); filter: drop-shadow(0 0 10px rgb(var(--accent) / 0.45)); }
+.svg-edge { stroke: rgb(var(--accent)); stroke-width: 1.6; fill: none; opacity: 0.75; }
+
+@media (hover: hover) and (pointer: fine) { .has-cursor a, .has-cursor button { cursor: pointer; } }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
 }
+
+/* Skip the splash screen if it was already shown this session (class set before first paint) */
+.splash-seen .splash { display: none; }
