@@ -7,8 +7,8 @@ import EngineeringLab from '@/components/EngineeringLab';
 import Building from '@/components/Building';
 import Experience from '@/components/Experience';
 import Achievements from '@/components/Achievements';
-import GitHubSection from '@/components/GitHubSection';
 import Contact from '@/components/Contact';
+import Marquee from '@/components/Marquee';
 import Footer from '@/components/Footer';
 
 export default function Home() {
@@ -18,13 +18,13 @@ export default function Home() {
       <main>
         <Hero />
         <About />
+        <Marquee />
         <TechStack />
         <Projects />
         <EngineeringLab />
         <Building />
         <Experience />
         <Achievements />
-        <GitHubSection />
         <Contact />
       </main>
       <Footer />

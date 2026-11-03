@@ -9,11 +9,10 @@ Live: https://man-mohan-portfolio.vercel.app
 - **3D hero** built with Three.js, React Three Fiber and Drei: a metallic torus knot around a glowing core, lit by blue and violet light panels, with cursor-responsive rotation, camera drift and subtle particles.
   Tablets get a lighter version. Phones, reduced-motion users and browsers without WebGL get a static CSS fallback. An error boundary catches 3D failures, and rendering pauses while the hero is off screen.
 - **Dark and light themes** driven by CSS variables. The choice is saved and applied before first paint, so there is no flash.
-- **Sections:** About, interactive tech stack, featured projects, "Inside my engineering mind" architecture diagrams, currently building, experience, achievements, GitHub activity, contact.
+- **Sections:** About, interactive tech stack, featured projects, "Inside my engineering mind" architecture diagrams, currently building, experience, achievements, contact.
 - **Project pages** at `/projects/teamforge` and `/projects/trodomiles`, generated from `lib/data.ts`.
-- **GitHub section** reading real public repositories and recent push activity through `/api/github`, with a fallback when the API is unavailable.
 - **Contact form** with validation, error and loading states, a honeypot field and per-IP rate limiting, delivering through Resend. If the service is not configured the form says so and opens a prefilled `mailto:` draft instead of pretending the message was sent.
-- **Motion:** splash transition, character-by-character headline, scroll reveals, parallax, magnetic buttons, custom cursor ring (mouse devices only), scroll progress bar, animated timeline and diagrams. All of it respects `prefers-reduced-motion`.
+- **Motion:** splash transition, character-by-character headline, scroll reveals, word-by-word headings, tilt cards, tech marquee, parallax, magnetic buttons, custom cursor ring (mouse devices only), scroll progress bar, animated timeline and diagrams. All of it respects `prefers-reduced-motion`.
 - **SEO and accessibility:** metadata, Open Graph image, sitemap, robots, canonical URLs, JSON-LD, semantic HTML, keyboard navigation and labelled forms.
 
 ## Getting started
@@ -40,7 +39,6 @@ Copy `.env.example` to `.env.local`.
 | `RESEND_API_KEY` | Resend API key for the contact form |
 | `CONTACT_TO_EMAIL` | Inbox that receives messages |
 | `CONTACT_FROM_EMAIL` | Verified sender address in Resend |
-| `GITHUB_TOKEN` | Optional. Raises the GitHub API rate limit. Read on the server only |
 
 Without the Resend variables `/api/contact` returns `503` and the site still builds and runs.
 
@@ -58,13 +56,12 @@ Project previews are original artwork, labelled "preview artwork", not screensho
 ```text
 app/
   api/contact/route.ts     Contact form API (Resend, honeypot, rate limit)
-  api/github/route.ts      Public GitHub data (token stays on the server)
   projects/[slug]/page.tsx Project detail pages
   layout.tsx, page.tsx, globals.css, sitemap.ts, robots.ts, opengraph-image.tsx
 components/
   hero/Scene.tsx, hero/HeroScene.tsx   3D scene, loader, fallback, error boundary
   Header, Hero, About, TechStack, Projects, EngineeringLab, Building,
-  Experience, Achievements, GitHubSection, Contact, Footer
+  Experience, Achievements, Contact, Marquee, Tilt, Footer
   Providers, Splash, ScrollProgress, ScrollTop, Cursor, Reveal, SplitText,
   MagneticButton, ThemeToggle, ProjectVisual, SectionTitle
 lib/

@@ -60,7 +60,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="section">
-      <SectionTitle eyebrow="08 / Contact" title="Have an idea? Let's make it real." subtitle="Interested in collaborating, discussing technology or building something useful? I'd be glad to connect." />
+      <SectionTitle eyebrow="07 / Contact" title="Have an idea? Let's make it real." subtitle="Interested in collaborating, discussing technology or building something useful? I'd be glad to connect." />
 
       <div className="mt-12 grid gap-10 md:grid-cols-[0.8fr_1.2fr]">
         <Reveal direction="left">
