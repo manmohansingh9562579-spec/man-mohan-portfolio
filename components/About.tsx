@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import CodeWindow from './CodeWindow';
 import Reveal from './Reveal';
 import SectionTitle from './SectionTitle';
 import { site } from '@/lib/site';
@@ -57,6 +58,8 @@ export default function About() {
           </div>
         </div>
       </div>
+
+      <Reveal className="mx-auto mt-16 max-w-3xl"><CodeWindow /></Reveal>
     </section>
   );
 }

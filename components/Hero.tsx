@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import { ArrowDown, ArrowRight, Download, Github, Linkedin, Mail, MapPin } from 'lucide-react';
 import HeroScene from './hero/HeroScene';
+import FloatingCode from './FloatingCode';
+import TypedRole from './TypedRole';
 import SplitText from './SplitText';
 import MagneticButton from './MagneticButton';
 import { site } from '@/lib/site';
@@ -18,6 +20,7 @@ export default function Hero() {
 
   return (
     <section id="home" className="relative isolate flex min-h-[100svh] items-center overflow-hidden">
+      <FloatingCode />
       {/* 3D scene sits behind the text and ignores pointer events, so buttons and links always work */}
       <div className="absolute inset-y-0 right-0 -z-10 w-full opacity-40 md:w-[56%] md:opacity-100">
         <HeroScene />
@@ -35,6 +38,8 @@ export default function Hero() {
           <br />
           <SplitText text="digital reality." delay={0.95} className="text-accent" />
         </h1>
+
+        <motion.div {...fade(1.4)}><TypedRole /></motion.div>
 
         <motion.p {...fade(1.5)} className="mt-7 max-w-xl text-base leading-relaxed text-muted md:text-lg">
           Hi, I&apos;m Man Mohan Singh. I build full-stack applications, explore backend engineering and create meaningful digital experiences.

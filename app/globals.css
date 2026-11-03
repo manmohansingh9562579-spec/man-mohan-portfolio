@@ -113,3 +113,10 @@ html.theme-transition *, html.theme-transition *::before, html.theme-transition 
 .grad-text { background-size: 200% auto; animation: grad-shift 6s ease-in-out infinite alternate; }
 @keyframes grad-shift { to { background-position: 100% center; } }
 @media (prefers-reduced-motion: reduce) { .marquee-track, .grad-text { animation: none; } .tilt { transition: none; } }
+
+/* Coding-themed motion */
+.caret { display: inline-block; width: .55ch; height: 1.1em; margin-left: 1px; vertical-align: text-bottom; background: rgb(var(--accent)); animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.code-float { position: absolute; bottom: -12%; font-family: var(--font-mono, ui-monospace), monospace; font-size: 1.1rem; color: rgb(var(--accent)); opacity: 0; animation: code-up linear infinite; }
+@keyframes code-up { 0% { transform: translateY(0) rotate(-6deg); opacity: 0; } 12% { opacity: .22; } 85% { opacity: .18; } 100% { transform: translateY(-115vh) rotate(8deg); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .code-float { display: none; } .caret { animation: none; } }
