@@ -54,7 +54,7 @@ html.theme-transition *, html.theme-transition *::before, html.theme-transition 
   .section { @apply mx-auto w-full max-w-6xl overflow-x-clip px-6 py-20 md:py-28; }
   .eyebrow { @apply font-mono text-xs uppercase tracking-[0.22em] text-accent; }
   .section-title { @apply font-display text-3xl font-semibold tracking-tight md:text-5xl; }
-  .card { @apply rounded-2xl border border-line bg-surface/80 p-6 shadow-sm backdrop-blur transition duration-300; }
+  .card { @apply rounded-2xl border border-line bg-surface/95 p-6 shadow-sm transition duration-300; }
   .card-hover { @apply hover:-translate-y-1 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/10; }
   .btn { @apply relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-6 py-3 text-sm font-medium transition duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent; }
   .btn-solid { @apply btn bg-accent text-on-accent hover:brightness-110; }
@@ -90,7 +90,6 @@ html.theme-transition *, html.theme-transition *::before, html.theme-transition 
 .svg-node-active { stroke: rgb(var(--accent)); filter: drop-shadow(0 0 10px rgb(var(--accent) / 0.45)); }
 .svg-edge { stroke: rgb(var(--accent)); stroke-width: 1.6; fill: none; opacity: 0.75; }
 
-@media (hover: hover) and (pointer: fine) { .has-cursor a, .has-cursor button { cursor: pointer; } }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -101,22 +100,20 @@ html.theme-transition *, html.theme-transition *::before, html.theme-transition 
 .splash-seen .splash { display: none; }
 
 /* Added motion: tilt spotlight, tech marquee, animated gradient text */
-.tilt { transition: transform .25s ease-out; will-change: transform; position: relative; }
+.tilt { will-change: transform; position: relative; }
 .tilt::after { content: ''; position: absolute; inset: 0; border-radius: 1rem; pointer-events: none; opacity: 0; transition: opacity .3s; background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 50%), rgb(var(--accent) / .16), transparent 70%); }
 .tilt:hover::after { opacity: 1; }
 .marquee { overflow: hidden; border-block: 1px solid rgb(var(--line)); padding: .9rem 0; mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
-.marquee-track { display: flex; width: max-content; animation: marquee 38s linear infinite; }
+.marquee-track { display: flex; width: max-content; will-change: transform; animation: marquee 45s linear infinite; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 .marquee-item { display: inline-flex; align-items: center; gap: 1.5rem; padding-right: 1.5rem; font-family: var(--font-mono, ui-monospace), monospace; font-size: .85rem; color: rgb(var(--muted)); white-space: nowrap; }
 .marquee-item i { width: 6px; height: 6px; border-radius: 9999px; background: rgb(var(--accent)); display: inline-block; }
 @keyframes marquee { to { transform: translateX(-50%); } }
-.grad-text { background-size: 200% auto; animation: grad-shift 6s ease-in-out infinite alternate; }
-@keyframes grad-shift { to { background-position: 100% center; } }
-@media (prefers-reduced-motion: reduce) { .marquee-track, .grad-text { animation: none; } .tilt { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
 
 /* Coding-themed motion */
 .caret { display: inline-block; width: .55ch; height: 1.1em; margin-left: 1px; vertical-align: text-bottom; background: rgb(var(--accent)); animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
-.code-float { position: absolute; bottom: -12%; font-family: var(--font-mono, ui-monospace), monospace; font-size: 1.1rem; color: rgb(var(--accent)); opacity: 0; animation: code-up linear infinite; }
-@keyframes code-up { 0% { transform: translateY(0) rotate(-6deg); opacity: 0; } 12% { opacity: .22; } 85% { opacity: .18; } 100% { transform: translateY(-115vh) rotate(8deg); opacity: 0; } }
+.code-float { position: absolute; bottom: -12%; font-family: var(--font-mono, ui-monospace), monospace; font-size: 1.1rem; color: rgb(var(--accent)); opacity: 0; will-change: transform, opacity; animation: code-up linear infinite; }
+@keyframes code-up { 0% { transform: translate3d(0,0,0); opacity: 0; } 12% { opacity: .2; } 85% { opacity: .16; } 100% { transform: translate3d(0,-115vh,0); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .code-float { display: none; } .caret { animation: none; } }

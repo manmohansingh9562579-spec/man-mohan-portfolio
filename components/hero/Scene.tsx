@@ -95,7 +95,8 @@ export default function Scene({ quality, active }: { quality: Quality; active: b
 
   return (
     <Canvas
-      dpr={quality === 'full' ? [1, 1.75] : 1}
+      dpr={quality === 'full' ? [1, 1.5] : 1}
+      performance={{ min: 0.6 }}
       camera={{ position: [0, 0, 10], fov: 38 }}
       gl={{ alpha: true, antialias: quality === 'full', powerPreference: 'high-performance' }}
       frameloop={active ? 'always' : 'never'}
@@ -104,7 +105,7 @@ export default function Scene({ quality, active }: { quality: Quality; active: b
       <ambientLight intensity={0.35} />
       <Lighting />
       <Sculpture quality={quality} pointer={pointer} />
-      {quality === 'full' && <Sparkles count={55} scale={[8, 5, 4]} size={2.2} speed={0.25} opacity={0.6} color="#9fb4ff" />}
+      {quality === 'full' && <Sparkles count={30} scale={[8, 5, 4]} size={2.2} speed={0.25} opacity={0.6} color="#9fb4ff" />}
     </Canvas>
   );
 }

@@ -1,7 +1,7 @@
 // Decorative code symbols drifting upward behind the hero. Pure CSS, hidden from assistive tech.
 const bits = [
   ['{ }', 8, 18, 0], ['</>', 22, 26, 3], ['=>', 38, 20, 6], ['[ ]', 52, 30, 1.5], ['&&', 66, 22, 4.5],
-  ['01', 78, 28, 2], ['( )', 90, 24, 7], ['git', 15, 34, 5], ['npm', 45, 36, 8], ['async', 72, 38, 9.5], ['//', 30, 22, 10.5], ['!=', 58, 20, 11.5],
+  ['git', 15, 34, 5], ['npm', 45, 36, 8], ['async', 72, 38, 9.5],
 ] as const;
 
 export default function FloatingCode() {

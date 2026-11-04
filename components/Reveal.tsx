@@ -6,10 +6,10 @@ import type { ReactNode } from 'react';
 type Direction = 'up' | 'left' | 'right' | 'scale';
 
 const from: Record<Direction, { opacity: number; x?: number; y?: number; scale?: number }> = {
-  up: { opacity: 0, y: 28 },
-  left: { opacity: 0, x: -32 },
-  right: { opacity: 0, x: 32 },
-  scale: { opacity: 0, scale: 0.92 },
+  up: { opacity: 0, y: 20 },
+  left: { opacity: 0, x: -20 },
+  right: { opacity: 0, x: 20 },
+  scale: { opacity: 0, scale: 0.96 },
 };
 
 export default function Reveal({ children, delay = 0, direction = 'up', className = '' }: { children: ReactNode; delay?: number; direction?: Direction; className?: string }) {
@@ -18,8 +18,8 @@ export default function Reveal({ children, delay = 0, direction = 'up', classNam
       className={className}
       initial={from[direction]}
       whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.65, delay, ease: [0.22, 1, 0.36, 1] }}
+      viewport={{ once: true, amount: 0.15, margin: '0px 0px -8% 0px' }}
+      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </motion.div>

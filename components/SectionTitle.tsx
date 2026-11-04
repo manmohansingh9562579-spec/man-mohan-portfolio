@@ -7,13 +7,20 @@ export default function SectionTitle({ eyebrow, title, subtitle }: { eyebrow: st
   return (
     <Reveal direction="left">
       <p className="eyebrow mb-3">{eyebrow}</p>
-      <h2 className="section-title" aria-label={title}>
+      <motion.h2
+        className="section-title"
+        aria-label={title}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.6 }}
+        variants={{ hidden: {}, show: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } } }}
+      >
         {title.split(' ').map((w, i) => (
           <span key={i} aria-hidden className="inline-block overflow-hidden pb-1 align-bottom">
-            <motion.span className="inline-block" initial={{ y: '110%' }} whileInView={{ y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.08 + i * 0.05, ease: [0.22, 1, 0.36, 1] }}>{w}&nbsp;</motion.span>
+            <motion.span className="inline-block" variants={{ hidden: { y: '110%' }, show: { y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }}>{w}&nbsp;</motion.span>
           </span>
         ))}
-      </h2>
+      </motion.h2>
       <motion.span
         aria-hidden
         className="mt-4 block h-1 rounded-full bg-gradient-to-r from-accent to-accent2"
