@@ -112,8 +112,6 @@ html.theme-transition *, html.theme-transition *::before, html.theme-transition 
 @media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
 
 /* Coding-themed motion */
-.caret { display: inline-block; width: .55ch; height: 1.1em; margin-left: 1px; vertical-align: text-bottom; background: rgb(var(--accent)); animation: blink 1s steps(1) infinite; }
-@keyframes blink { 50% { opacity: 0; } }
 .code-float { position: absolute; bottom: -12%; font-family: var(--font-mono, ui-monospace), monospace; font-size: 1.1rem; color: rgb(var(--accent)); opacity: 0; will-change: transform, opacity; animation: code-up linear infinite; }
 @keyframes code-up { 0% { transform: translate3d(0,0,0); opacity: 0; } 12% { opacity: .2; } 85% { opacity: .16; } 100% { transform: translate3d(0,-115vh,0); opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .code-float { display: none; } .caret { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .code-float { display: none; } }

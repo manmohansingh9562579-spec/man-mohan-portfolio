@@ -18,7 +18,6 @@ export default function Experience() {
             <Reveal key={t.title} delay={i * 0.08} direction="right">
               <li className="relative">
                 <span className="absolute -left-[2.45rem] top-1.5 flex h-3 w-3" aria-hidden>
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-40" />
                   <span className="relative inline-flex h-3 w-3 rounded-full bg-accent ring-4 ring-bg" />
                 </span>
                 <p className="flex items-center gap-3 font-mono text-xs text-muted">{t.date} <span className="chip !py-0.5 !text-[10px]">{t.kind}</span></p>

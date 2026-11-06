@@ -42,7 +42,6 @@ export default function CodeWindow() {
   }, [n]);
 
   const typing = inView && n < total;
-  const lastLine = Math.max(0, rendered.findIndex((l) => l.every(([, s]) => s === '')) - 1);
 
   return (
     <div ref={ref} className="card !p-0 overflow-hidden font-mono text-[12.5px] leading-6 sm:text-sm" role="img" aria-label="Code snippet summarising Man Mohan Singh: Software Engineer in Indore, studying at Medi-Caps University, building with Next.js, TypeScript and MongoDB.">
@@ -57,7 +56,6 @@ export default function CodeWindow() {
             <span className="mr-4 w-5 shrink-0 select-none text-right text-muted/50">{li + 1}</span>
             <code className="whitespace-pre">
               {segs.map(([k, s], si) => <span key={si} className={colour[k]}>{s}</span>)}
-              {typing && li === lastLine && <span className="caret" />}
             </code>
           </div>
         ))}

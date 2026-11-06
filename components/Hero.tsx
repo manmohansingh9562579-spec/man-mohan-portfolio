@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDown, ArrowRight, Download, Github, Linkedin, Mail, MapPin } from 'lucide-react';
 import HeroScene from './hero/HeroScene';
 import FloatingCode from './FloatingCode';
@@ -18,17 +19,23 @@ export default function Hero() {
     { label: 'Email', href: `mailto:${site.email}`, icon: <Mail size={19} />, external: false },
   ];
 
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
+  const textY = useTransform(scrollYProgress, [0, 1], [0, 90]);
+  const sceneY = useTransform(scrollYProgress, [0, 1], [0, 160]);
+  const fadeOut = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
   return (
-    <section id="home" className="relative isolate flex min-h-[100svh] items-center overflow-hidden">
+    <section ref={ref} id="home" className="relative isolate flex min-h-[100svh] items-center overflow-hidden">
       <FloatingCode />
       {/* 3D scene sits behind the text and ignores pointer events, so buttons and links always work */}
-      <div className="absolute inset-y-0 right-0 -z-10 w-full opacity-40 md:w-[56%] md:opacity-100">
+      <motion.div style={{ y: sceneY }} className="absolute inset-y-0 right-0 -z-10 w-full opacity-40 md:w-[56%] md:opacity-100">
         <HeroScene />
-      </div>
+      </motion.div>
 
-      <div className="mx-auto w-full max-w-6xl px-6 pb-24 pt-28 md:pt-32">
+      <motion.div style={{ y: textY, opacity: fadeOut }} className="mx-auto w-full max-w-6xl px-6 pb-24 pt-28 md:pt-32">
         <motion.p {...fade(0.2)} className="eyebrow mb-6 flex flex-wrap items-center gap-x-3 gap-y-1">
-          <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" /><span className="relative inline-flex h-2 w-2 rounded-full bg-accent" /></span>
+          <span className="relative flex h-2 w-2"><span className="relative inline-flex h-2 w-2 rounded-full bg-accent" /></span>
           {site.title}
           <span className="inline-flex items-center gap-1.5 text-muted"><MapPin size={13} /> {site.location}</span>
         </motion.p>
@@ -56,7 +63,7 @@ export default function Hero() {
             <a key={s.label} href={s.href} aria-label={s.label} className="icon-btn" {...(s.external ? { target: '_blank', rel: 'noreferrer' } : {})}>{s.icon}</a>
           ))}
         </motion.div>
-      </div>
+      </motion.div>
 
       <motion.a {...fade(2.1)} href="#about" aria-label="Scroll to the about section" className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-muted md:flex">
         <span className="font-mono text-[10px] tracking-[0.3em]">SCROLL</span>

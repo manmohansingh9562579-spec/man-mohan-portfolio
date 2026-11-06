@@ -28,7 +28,7 @@ export default function TypedRole() {
   return (
     <p className="mt-6 inline-flex max-w-full items-center overflow-hidden rounded-lg border border-line bg-surface/70 px-4 py-2 font-mono text-sm backdrop-blur" aria-label={`Role: ${roles[0]}`}>
       <span className="text-accent2">const</span>&nbsp;<span className="text-ink">role</span>&nbsp;<span className="text-muted">=</span>&nbsp;
-      <span className="text-accent">&quot;{text}</span><span className="caret" aria-hidden />
+      <span className="text-accent">&quot;{text}</span>
       <span className="text-accent">&quot;</span><span className="text-muted">;</span>
     </p>
   );
