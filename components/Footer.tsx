@@ -19,12 +19,12 @@ export default function Footer() {
         <nav aria-label="Footer">
           <p className="eyebrow mb-4">Navigate</p>
           <ul className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm text-muted">
-            {navLinks.map((l) => <li key={l.id}><Link href={`/#${l.id}`} className="transition hover:text-accent">{l.label}</Link></li>)}
+            {navLinks.map((l) => <li key={l.id}><Link href={`/#${l.id}`} className="link-u transition hover:text-accent">{l.label}</Link></li>)}
           </ul>
         </nav>
         <div>
           <p className="eyebrow mb-4">Contact</p>
-          <a href={`mailto:${site.email}`} className="break-all text-sm text-muted transition hover:text-accent">{site.email}</a>
+          <a href={`mailto:${site.email}`} className="link-u break-all text-sm text-muted transition hover:text-accent">{site.email}</a>
           <div className="mt-6"><Link href="/#home" className="btn-outline !py-2">Back to top <ArrowUp size={14} /></Link></div>
         </div>
       </div>

@@ -12,9 +12,10 @@ const from: Record<Direction, { opacity: number; x?: number; y?: number; scale?:
   scale: { opacity: 0, scale: 0.96 },
 };
 
-export default function Reveal({ children, delay = 0, direction = 'up', className = '' }: { children: ReactNode; delay?: number; direction?: Direction; className?: string }) {
+export default function Reveal({ children, delay = 0, direction = 'up', className = '', as = 'div' }: { children: ReactNode; delay?: number; direction?: Direction; className?: string; as?: 'div' | 'li' }) {
+  const Tag = as === 'li' ? motion.li : motion.div;
   return (
-    <motion.div
+    <Tag
       className={className}
       initial={from[direction]}
       whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
@@ -22,6 +23,6 @@ export default function Reveal({ children, delay = 0, direction = 'up', classNam
       transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
-    </motion.div>
+    </Tag>
   );
 }

@@ -6,10 +6,11 @@ import { motion } from 'framer-motion';
 export default function SplitText({ text, className = '', delay = 0, stagger = 0.09 }: { text: string; className?: string; delay?: number; stagger?: number }) {
   const words = text.split(' ');
   return (
-    <span className={className} aria-label={text}>
+    <span className={className}>
+      <span className="sr-only">{text}</span>
       {words.map((word, i) => (
-        <span key={i}>
-          <span className="inline-block overflow-hidden whitespace-nowrap pb-[0.12em] align-bottom" aria-hidden>
+        <span key={i} aria-hidden>
+          <span className="inline-block overflow-hidden whitespace-nowrap pb-[0.12em] align-bottom">
             <motion.span
               className="inline-block"
               initial={{ y: '105%' }}

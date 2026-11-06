@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react';
 import { Github, Linkedin, Loader2, Mail, Send } from 'lucide-react';
+import CopyEmail from './CopyEmail';
 import Reveal from './Reveal';
 import SectionTitle from './SectionTitle';
 import { site } from '@/lib/site';
@@ -65,7 +66,7 @@ export default function Contact() {
       <div className="mt-12 grid gap-10 md:grid-cols-[0.8fr_1.2fr]">
         <Reveal direction="left">
           <div className="space-y-4">
-            <a href={`mailto:${site.email}`} className="card card-hover flex items-center gap-4 !p-4"><Mail size={20} className="text-accent" /><span className="break-all text-sm font-medium">{site.email}</span></a>
+            <div className="card card-hover flex items-center gap-4 !p-4"><a href={`mailto:${site.email}`} className="flex min-w-0 flex-1 items-center gap-4"><Mail size={20} className="shrink-0 text-accent" /><span className="break-all text-sm font-medium link-u">{site.email}</span></a><CopyEmail /></div>
             <a href={site.linkedin} target="_blank" rel="noreferrer" className="card card-hover flex items-center gap-4 !p-4"><Linkedin size={20} className="text-accent" /><span className="text-sm font-medium">LinkedIn</span></a>
             <a href={site.github} target="_blank" rel="noreferrer" className="card card-hover flex items-center gap-4 !p-4"><Github size={20} className="text-accent" /><span className="text-sm font-medium">GitHub</span></a>
           </div>

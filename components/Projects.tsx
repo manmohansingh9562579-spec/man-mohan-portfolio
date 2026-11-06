@@ -6,6 +6,7 @@ import { animate, motion, useInView } from 'framer-motion';
 import { ArrowUpRight, Github } from 'lucide-react';
 import Reveal from './Reveal';
 import SectionTitle from './SectionTitle';
+import Tilt from './Tilt';
 import ProjectVisual from './ProjectVisual';
 import { projects } from '@/lib/data';
 
@@ -36,7 +37,7 @@ export default function Projects() {
             <article key={p.slug} className={`grid items-center gap-8 md:grid-cols-12 md:gap-12 ${i % 2 ? 'md:mt-4' : ''}`}>
               <Reveal direction={flip ? 'right' : 'left'} className={`md:col-span-7 ${flip ? 'md:order-2' : ''}`}>
                 <Link href={`/projects/${p.slug}`} aria-label={`Open the ${p.name} project page`} className="group block" data-cursor>
-                  <div className="transition duration-500 group-hover:-translate-y-2 group-hover:scale-[1.015]"><ProjectVisual slug={p.slug} /></div>
+                  <Tilt><ProjectVisual slug={p.slug} /></Tilt>
                 </Link>
               </Reveal>
 

@@ -1,13 +1,14 @@
+import dynamic from 'next/dynamic';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
 import TechStack from '@/components/TechStack';
 import Projects from '@/components/Projects';
-import EngineeringLab from '@/components/EngineeringLab';
-import Building from '@/components/Building';
-import Experience from '@/components/Experience';
-import Achievements from '@/components/Achievements';
-import Contact from '@/components/Contact';
+const EngineeringLab = dynamic(() => import('@/components/EngineeringLab'));
+const Building = dynamic(() => import('@/components/Building'));
+const Experience = dynamic(() => import('@/components/Experience'));
+const Achievements = dynamic(() => import('@/components/Achievements'));
+const Contact = dynamic(() => import('@/components/Contact'));
 import Marquee from '@/components/Marquee';
 import Footer from '@/components/Footer';
 

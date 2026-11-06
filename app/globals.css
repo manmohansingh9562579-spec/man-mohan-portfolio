@@ -115,3 +115,7 @@ html.theme-transition *, html.theme-transition *::before, html.theme-transition 
 .code-float { position: absolute; bottom: -12%; font-family: var(--font-mono, ui-monospace), monospace; font-size: 1.1rem; color: rgb(var(--accent)); opacity: 0; will-change: transform, opacity; animation: code-up linear infinite; }
 @keyframes code-up { 0% { transform: translate3d(0,0,0); opacity: 0; } 12% { opacity: .2; } 85% { opacity: .16; } 100% { transform: translate3d(0,-115vh,0); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .code-float { display: none; } }
+
+/* Animated link underline */
+.link-u { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size .3s ease; padding-bottom: 2px; }
+.link-u:hover, a:hover > .link-u, a:focus-visible > .link-u { background-size: 100% 1px; }
