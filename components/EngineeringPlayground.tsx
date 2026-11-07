@@ -414,7 +414,7 @@ export default function EngineeringPlayground() {
             <span className="flex items-center gap-2"><Icon size={15} /><span>{label}</span></span><span className="font-mono text-[9px] tracking-widest text-muted">{number}</span>
           </button>)}
         </div>
-        <motion.div key={activeTool} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} className="lab-workbench mt-5">
+        <motion.div key={activeTool} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }} className="lab-workbench mt-5">
           <ActivePanel />
         </motion.div>
         <div className="mt-5 flex items-center gap-2 text-[10px] text-muted"><Sparkles size={13} className="text-accent" /> Reduced-motion preferences are respected; every control also works by keyboard.</div>

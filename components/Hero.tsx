@@ -34,37 +34,37 @@ export default function Hero() {
       </Reveal>
 
       <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-12 px-6 pb-24 pt-28 lg:grid-cols-[1.05fr_0.8fr] lg:pt-32">
-        <div>
-          <Reveal className="eyebrow mb-5 flex flex-wrap items-center gap-x-3 gap-y-2">
+        <Reveal>
+          <div>
+          <p className="eyebrow mb-5 flex flex-wrap items-center gap-x-3 gap-y-2">
             <span className="hero-live-marker" />
             <span>{site.title}</span>
             <span className="inline-flex items-center gap-1.5 text-muted"><MapPin size={12} /> {site.location}</span>
-          </Reveal>
+          </p>
 
-          <Reveal>
-            <h1 className="max-w-3xl font-display text-[2.9rem] font-semibold leading-[0.98] tracking-[-0.055em] sm:text-6xl md:text-7xl lg:text-[5.4rem]">
-              Man Mohan<br /><span className="text-accent">Singh <span className="hero-wave" role="img" aria-label="waving hand">👋</span></span>
-            </h1>
-          </Reveal>
-          <Reveal delay={0.12} className="mt-7 font-mono text-xs uppercase tracking-[0.24em] text-muted sm:text-sm">
+          <h1 className="max-w-3xl font-display text-[2.9rem] font-semibold leading-[0.98] tracking-[-0.055em] sm:text-6xl md:text-7xl lg:text-[5.4rem]">
+            Man Mohan<br /><span className="text-accent">Singh</span>
+          </h1>
+          <p className="mt-7 font-mono text-xs uppercase tracking-[0.24em] text-muted sm:text-sm">
             <span className="text-accent">Build.</span> Engineer. Innovate.
-          </Reveal>
-          <Reveal delay={0.16} className="mt-5 max-w-xl text-base leading-relaxed text-muted md:text-lg">
+          </p>
+          <p className="mt-5 max-w-xl text-base leading-relaxed text-muted md:text-lg">
             I build full-stack applications, explore backend engineering and turn practical ideas into software people can use.
-          </Reveal>
+          </p>
 
-          <Reveal delay={0.2} className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             <a href="#projects" className="btn-solid">Explore My Work <ArrowRight size={16} /></a>
             <a href={site.resume} download className="btn-outline">View Resume <Download size={15} /></a>
-          </Reveal>
+          </div>
 
-          <Reveal delay={0.24} className="mt-6 flex flex-wrap items-center gap-3">
+          <div className="mt-6 flex flex-wrap items-center gap-3">
             <a href={site.github} target="_blank" rel="noreferrer" aria-label="GitHub" className="hero-social"><Github size={16} /> GitHub</a>
             <a href={site.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="hero-social"><Linkedin size={16} /> LinkedIn</a>
             <span className="ml-1 h-4 w-px bg-line" aria-hidden />
             <span className="font-mono text-[10px] uppercase tracking-widest text-muted">Medi-Caps University · CSE</span>
-          </Reveal>
-        </div>
+          </div>
+          </div>
+        </Reveal>
 
         <div className="relative hidden min-h-[440px] items-end justify-end pb-4 lg:flex">
           <div className="hero-orbit-label hero-orbit-label-top" aria-hidden>REQUEST / RESPONSE</div>
