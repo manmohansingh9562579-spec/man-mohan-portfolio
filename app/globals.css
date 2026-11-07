@@ -98,7 +98,7 @@ html.theme-transition *, html.theme-transition *::before, html.theme-transition 
 .hero-fallback-node { fill: rgb(var(--bg)); stroke: rgb(var(--accent) / .9); stroke-width: 2; }
 .hero-fallback-node-core { fill: rgb(var(--accent2)); stroke: rgb(var(--accent2)); filter: drop-shadow(0 0 9px rgb(var(--accent2) / .65)); }
 .hero-fallback-label { position: absolute; bottom: 7%; right: 8%; color: rgb(var(--muted)); font: 9px var(--font-mono, ui-monospace), monospace; letter-spacing: .16em; }
-.hero-network-fallback { animation: developerfolio-float 5s ease-in-out infinite; }
+.hero-network-fallback { animation: developerfolio-float 6s ease-in-out infinite; will-change: transform; }
 .hero-wave { display: inline-block; transform-origin: 70% 70%; animation: developerfolio-wave 1.8s ease-in-out infinite; }
 .lab-workbench { border: 1px solid rgb(var(--line)); border-radius: 1.25rem; background: linear-gradient(145deg, rgb(var(--surface) / .88), rgb(var(--bg) / .82)); padding: clamp(1rem, 3vw, 2rem); }
 .lab-tab { display: flex; min-height: 48px; align-items: center; justify-content: space-between; gap: .5rem; border: 1px solid rgb(var(--line)); border-radius: .85rem; background: rgb(var(--surface) / .72); padding: .7rem .85rem; color: rgb(var(--muted)); font-size: .74rem; transition: border-color .2s, color .2s, background .2s; }

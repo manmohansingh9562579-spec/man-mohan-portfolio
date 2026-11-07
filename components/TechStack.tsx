@@ -48,7 +48,7 @@ export default function TechStack() {
 
         <Reveal direction="right">
           <div className="card min-h-[18rem] lg:sticky lg:top-24" aria-live="polite">
-              <motion.div key={selected.name} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}>
+              <motion.div key={selected.name} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2, ease: 'easeOut' }}>
                 <p className="eyebrow flex items-center gap-2"><Boxes size={14} /> {selected.group}</p>
                 <h3 className="mt-3 font-display text-3xl font-semibold">{selected.name}</h3>
                 <p className="mt-3 text-sm text-muted">{selected.blurb}</p>
