@@ -2,11 +2,11 @@
 // or details supplied by the owner. Nothing here is invented: where a technology has no published
 // project yet, the card says so.
 
-export type TechGroup = 'Languages' | 'Frontend' | 'Backend' | 'Database' | 'Tools';
+export type TechGroup = 'Languages' | 'Frontend' | 'Backend' | 'Database' | 'Tools' | 'Cloud & Deployment' | 'AI / ML';
 
 export type Tech = { name: string; group: TechGroup; blurb: string; project: string; detail: string };
 
-export const techGroups: TechGroup[] = ['Languages', 'Frontend', 'Backend', 'Database', 'Tools'];
+export const techGroups: TechGroup[] = ['Languages', 'Frontend', 'Backend', 'Database', 'Tools', 'Cloud & Deployment', 'AI / ML'];
 
 const NONE = 'No published project yet';
 
@@ -20,7 +20,7 @@ export const techStack: Tech[] = [
   { name: 'React', group: 'Frontend', blurb: 'Component-based user interfaces.', project: 'TeamForge, TrodoMiles', detail: 'Reusable components and hooks for interactive interfaces.' },
   { name: 'Next.js', group: 'Frontend', blurb: 'Full-stack React framework.', project: 'TeamForge, TrodoMiles, this portfolio', detail: 'App Router, route handlers, middleware and static generation. TeamForge runs on Next.js 14.' },
   { name: 'Tailwind CSS', group: 'Frontend', blurb: 'Utility-first styling.', project: 'TeamForge, TrodoMiles, this portfolio', detail: 'Design tokens are mapped into the Tailwind config so every component shares one palette.' },
-  { name: 'Node.js', group: 'Backend', blurb: 'JavaScript runtime behind server-side code.', project: 'TeamForge, this portfolio', detail: 'Server logic and API route handlers run on Node.js, such as this site\'s /api/contact and /api/github.' },
+  { name: 'Node.js', group: 'Backend', blurb: 'JavaScript runtime behind server-side code.', project: 'TeamForge, this portfolio', detail: 'Server logic and API route handlers run on Node.js, including this portfolio’s /api/contact endpoint.' },
   { name: 'Express.js', group: 'Backend', blurb: 'Minimal Node web framework.', project: NONE, detail: 'Part of my backend learning path. No published project uses it yet.' },
   { name: 'REST APIs', group: 'Backend', blurb: 'Resource-based HTTP APIs.', project: 'This portfolio', detail: 'The contact endpoint validates input, rate-limits requests and returns meaningful status codes (400, 429, 502, 503).' },
   { name: 'MongoDB', group: 'Database', blurb: 'Document database.', project: 'TeamForge', detail: 'TeamForge stores its data in MongoDB Atlas through Mongoose models.' },
@@ -30,7 +30,8 @@ export const techStack: Tech[] = [
   { name: 'GitHub', group: 'Tools', blurb: 'Code hosting and collaboration.', project: 'All projects', detail: 'Hosts the repositories for TeamForge, TrodoMiles and this portfolio.' },
   { name: 'VS Code', group: 'Tools', blurb: 'Primary code editor.', project: 'All projects', detail: 'Daily editor for all of the above.' },
   { name: 'Figma', group: 'Tools', blurb: 'Interface planning.', project: 'Layout planning', detail: 'Used for planning interfaces and layouts before building them.' },
-  { name: 'Vercel', group: 'Tools', blurb: 'Hosting and deployment.', project: 'TeamForge, TrodoMiles, this portfolio', detail: 'Deployments are triggered from GitHub pushes.' },
+  { name: 'Vercel', group: 'Cloud & Deployment', blurb: 'Hosting and deployment.', project: 'TeamForge, TrodoMiles, this portfolio', detail: 'The published projects and portfolio are deployed on Vercel.' },
+  { name: 'Python exploration', group: 'AI / ML', blurb: 'Exploring where AI can support useful software.', project: NONE, detail: 'No published machine-learning feature is claimed here; this is a learning area, not a production skill.' },
 ];
 
 export type ProjectStatus = 'Live' | 'In progress';
@@ -60,7 +61,7 @@ export const projects: Project[] = [
     category: 'Collaboration platform',
     status: 'Live',
     tagline: 'Find people. Build teams. Ship projects.',
-    summary: 'A team collaboration platform for hackathons and projects, with developer profiles, team discovery and a built-in task board.',
+    summary: 'A builder network for discovering collaborators and organizing project work, with structured profiles, transparent matching and shared team workspaces.',
     problem: 'Developers, students and hackathon participants struggle to find the right teammates and then keep a team organised once it forms.',
     solution: 'TeamForge combines structured developer profiles with team and developer discovery. A deterministic 0 to 100 compatibility score, based on a weighted formula and not on AI, helps rank matches, and teams then manage the work on a shared board.',
     features: [
@@ -73,7 +74,7 @@ export const projects: Project[] = [
       'Daily and weekly coding challenges',
     ],
     stack: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'MongoDB Atlas', 'Mongoose', 'Auth.js', 'Vitest'],
-    contribution: 'Repository owner and developer. The repository has 25 commits on main and is organised into app, components, models, services, validations and lib layers.',
+    contribution: 'Project creator and repository owner. The app is organized around Next.js route handlers, Mongoose models, validation schemas, services and reusable UI.',
     github: 'https://github.com/manmohansingh9562579-spec/TeamForge',
     live: 'https://teamforge-amber.vercel.app',
   },
@@ -84,18 +85,18 @@ export const projects: Project[] = [
     category: 'Travel discovery',
     status: 'Live',
     tagline: 'Explore India smarter.',
-    summary: 'A travel discovery website for India with 153+ destinations, popular places, hidden gems and itineraries for the most researched destinations.',
+    summary: 'A travel discovery site for India with destination pages, travel-style budget estimates, itineraries, live weather and map information.',
     problem: 'Planning a trip in India usually means piecing together destinations, budgets and itineraries from many scattered sources.',
-    solution: 'TrodoMiles puts destinations across states and union territories in one place. Visitors can search any city or state, browse popular destinations and hidden gems, and open budget breakdowns and day-by-day itineraries for the most researched destinations. Photos are loaded live from Wikipedia.',
+    solution: 'TrodoMiles brings destination summaries and trip-planning details into one responsive interface. Researched pages include travel-style estimates, day-by-day itineraries, live weather and maps. Nearby place links use Wikipedia’s location index, so coverage and relevance can vary by destination.',
     features: [
-      '153+ destinations across states and union territories',
-      'Popular destinations and hidden gems',
+      'Destination pages across India',
+      'Popular places and nearby location links',
       'Search by city or state',
       'Budget breakdowns and itineraries for the most researched destinations',
       'Animated transitions and a responsive layout',
     ],
     stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
-    contribution: 'Creator of the project, credited on the site. The repository has 7 commits on main.',
+    contribution: 'Project creator, credited on the live site. The repository uses Next.js, TypeScript, Tailwind CSS and Framer Motion.',
     github: 'https://github.com/manmohansingh9562579-spec/Trodomiles',
     live: 'https://trodomiles.vercel.app',
   },
@@ -112,7 +113,7 @@ export const timeline: TimelineItem[] = [
 
 export const milestones = [
   { title: 'TeamForge deployed', text: 'A full-stack collaboration platform with authentication, a database layer and tests, deployed on Vercel.', href: projects[0].github, label: 'View repository' },
-  { title: 'TrodoMiles deployed', text: 'A travel discovery site covering 153+ destinations across India.', href: projects[1].live, label: 'Open live site' },
+  { title: 'TrodoMiles deployed', text: 'A live travel discovery experience for destinations across India.', href: projects[1].live, label: 'Open live site' },
   { title: 'Code Canvas participant', text: 'Took part in a university-level build and collaboration experience in 2026.', href: '', label: '' },
   { title: 'Smart India Hackathon 2026', text: 'Preparing a solution around email phishing detection.', href: '', label: '' },
 ];
@@ -124,43 +125,6 @@ export const building: { status: BuildStatus; title: string; text: string }[] = 
   { status: 'Active', title: 'DSA with Java', text: 'Regular problem solving to strengthen algorithms and data structures.' },
   { status: 'Active', title: 'Backend engineering', text: 'APIs, authentication, databases and testing practices.' },
   { status: 'Planned', title: 'Phishing detection prototype', text: 'A solution for the Smart India Hackathon problem statement on email phishing detection.' },
-  { status: 'Completed', title: 'TrodoMiles launch', text: 'A live travel discovery site covering 153+ destinations.' },
-  { status: 'Completed', title: 'Portfolio 2.0', text: 'This site: a 3D hero, dark and light themes, project pages and a working contact form.' },
-];
-
-export type ArchNode = { id: string; label: string; sub: string; x: number; y: number; desc: string };
-export type Architecture = { id: string; title: string; caption: string; nodes: ArchNode[]; edges: [string, string][] };
-
-export const architectures: Architecture[] = [
-  {
-    id: 'teamforge',
-    title: 'TeamForge',
-    caption: 'Based on the repository structure and README: app, middleware, validations, services, models and MongoDB Atlas.',
-    nodes: [
-      { id: 'ui', label: 'Frontend', sub: 'Next.js 14 · Tailwind', x: 20, y: 150, desc: 'Pages and components in app/ and components/, styled with Tailwind CSS.' },
-      { id: 'mw', label: 'Middleware', sub: 'middleware.ts', x: 215, y: 60, desc: 'A middleware.ts at the project root runs before requests reach the routes.' },
-      { id: 'auth', label: 'Authentication', sub: 'Auth.js', x: 215, y: 240, desc: 'Sign-in and sessions are handled with Auth.js.' },
-      { id: 'api', label: 'API layer', sub: 'Route handlers', x: 410, y: 150, desc: 'Route handlers receive requests; input is checked against schemas in validations/.' },
-      { id: 'svc', label: 'Services', sub: 'services/ · scoring', x: 605, y: 60, desc: 'Business logic lives in services/, including the weighted 0 to 100 compatibility score.' },
-      { id: 'db', label: 'Database', sub: 'MongoDB Atlas', x: 605, y: 240, desc: 'Mongoose models in models/ persist data to MongoDB Atlas.' },
-    ],
-    edges: [['ui', 'mw'], ['ui', 'auth'], ['mw', 'api'], ['auth', 'api'], ['api', 'svc'], ['svc', 'db']],
-  },
-  {
-    id: 'trodomiles',
-    title: 'TrodoMiles',
-    caption: 'Kept deliberately small: only the parts confirmed from the README and the live site.',
-    nodes: [
-      { id: 'ui', label: 'Frontend', sub: 'Next.js · Framer Motion', x: 40, y: 150, desc: 'The app router front end, with animated transitions and a responsive layout.' },
-      { id: 'app', label: 'Next.js app', sub: 'Destinations · search', x: 330, y: 150, desc: 'Destination pages, popular places, hidden gems and search by city or state.' },
-      { id: 'wiki', label: 'Wikipedia', sub: 'Live photos', x: 620, y: 150, desc: 'Destination photos are loaded live from Wikipedia, as stated on the site.' },
-    ],
-    edges: [['ui', 'app'], ['app', 'wiki']],
-  },
-];
-
-export const fallbackRepos = [
-  { name: 'TeamForge', description: 'Team collaboration platform for hackathons & projects', language: 'TypeScript', url: projects[0].github },
-  { name: 'Trodomiles', description: 'Travel discovery website for India', language: 'TypeScript', url: projects[1].github },
-  { name: 'man-mohan-portfolio', description: 'This portfolio', language: 'TypeScript', url: 'https://github.com/manmohansingh9562579-spec/man-mohan-portfolio' },
+  { status: 'Completed', title: 'TrodoMiles launch', text: 'A live travel discovery site with destination pages and trip-planning details.' },
+  { status: 'Completed', title: 'Engineering in Motion', text: 'This portfolio: an interactive network hero, five engineering simulations, project pages and a contact form.' },
 ];

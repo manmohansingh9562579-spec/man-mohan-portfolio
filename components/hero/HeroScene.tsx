@@ -8,11 +8,13 @@ type Mode = 'static' | 'lite' | 'full';
 /** Lightweight CSS stand-in: shown on phones, with reduced motion, without WebGL, while loading, or if 3D fails. */
 export function SceneFallback() {
   return (
-    <div className="relative mx-auto aspect-square w-full max-w-md" aria-hidden>
-      <div className="absolute inset-[10%] rounded-full bg-gradient-to-br from-accent/40 via-accent2/30 to-transparent blur-3xl" />
-      <div className="float-y absolute inset-[24%] rotate-12 rounded-[36%] border border-ink/10 bg-gradient-to-br from-accent/50 to-accent2/50 shadow-2xl shadow-accent/30 backdrop-blur-xl" />
-      <div className="absolute inset-[14%] rounded-full border border-accent/30" />
-      <div className="absolute inset-[6%] rounded-full border border-dashed border-accent2/30" />
+    <div className="hero-network-fallback" aria-hidden>
+      <svg viewBox="0 0 520 420" className="h-full w-full" fill="none">
+        <path d="M75 110 180 60 280 120 415 80 455 215 350 300 240 235 125 320 75 110M180 60 240 235M280 120 350 300M75 110 240 235M415 80 240 235" className="hero-fallback-line" />
+        {[ [75,110], [180,60], [280,120], [415,80], [455,215], [350,300], [240,235], [125,320] ].map(([cx, cy], index) => <circle key={index} cx={cx} cy={cy} r={index === 6 ? 8 : 5} className={index === 6 ? 'hero-fallback-node hero-fallback-node-core' : 'hero-fallback-node'} />)}
+        <circle cx="75" cy="110" r="3" className="hero-fallback-packet" />
+      </svg>
+      <span className="hero-fallback-label">CONNECTED SYSTEMS / 08 NODES</span>
     </div>
   );
 }

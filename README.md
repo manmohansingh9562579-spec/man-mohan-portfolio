@@ -6,13 +6,13 @@ Live: https://man-mohan-portfolio.vercel.app
 
 ## Features
 
-- **3D hero** built with Three.js, React Three Fiber and Drei: a metallic torus knot around a glowing core, lit by blue and violet light panels, with cursor-responsive rotation, camera drift and subtle particles.
-  Tablets get a lighter version. Phones, reduced-motion users and browsers without WebGL get a static CSS fallback. An error boundary catches 3D failures, and rendering pauses while the hero is off screen.
+- **3D computational network** built with Three.js and React Three Fiber. Connected nodes and moving packets respond gently to pointer movement. Tablets get a lighter render; phones, reduced-motion users and browsers without WebGL get a static SVG fallback. Rendering pauses while the hero is off screen.
 - **Dark and light themes** driven by CSS variables. The choice is saved and applied before first paint, so there is no flash.
-- **Sections:** About, interactive tech stack, featured projects, "Inside my engineering mind" architecture diagrams, currently building, experience, achievements, contact.
+- **Engineering Playground:** interactive request architecture, a local code preview based on TeamForge's matching service, real algorithm visualizers, in-memory CRUD flow, and a simulated delivery pipeline. Each simulation explains what it does and makes clear when it does not call a live service.
+- **Sections:** About, interactive tech stack, featured projects, engineering playground, current work, experience, milestones and contact.
 - **Project pages** at `/projects/teamforge` and `/projects/trodomiles`, generated from `lib/data.ts`.
 - **Contact form** with validation, error and loading states, a honeypot field and per-IP rate limiting, delivering through Resend. If the service is not configured the form says so and opens a prefilled `mailto:` draft instead of pretending the message was sent.
-- **Motion:** splash transition, character-by-character headline, scroll reveals, word-by-word headings, tilt cards, tech marquee, parallax, magnetic buttons, custom cursor ring (mouse devices only), scroll progress bar, animated timeline and diagrams. All of it respects `prefers-reduced-motion`.
+- **Motion:** a short splash, character-by-character headline, restrained section reveals, tilt cards, tech marquee, parallax, magnetic buttons, scroll progress and timeline details. Motion is reduced or removed when the visitor requests it.
 - **SEO and accessibility:** metadata, Open Graph image, sitemap, robots, canonical URLs, JSON-LD, semantic HTML, keyboard navigation and labelled forms.
 
 ## Getting started
@@ -45,7 +45,8 @@ Without the Resend variables `/api/contact` returns `503` and the site still bui
 ## Editing content
 
 - `lib/site.ts`: name, links, email, resume path, navigation.
-- `lib/data.ts`: tech stack, projects, timeline, milestones, current work and architecture diagrams.
+- `lib/data.ts`: tech stack, projects, timeline, milestones and current work.
+- `lib/simulations.ts`: deterministic algorithm steps and the local TeamForge scoring example used by the playground.
 - `public/images/profile-cutout.webp`: portrait with a transparent background (the original is `profile.jpg`).
 - `public/resume/man-mohan-singh-resume.pdf`: resume.
 
@@ -59,13 +60,13 @@ app/
   projects/[slug]/page.tsx Project detail pages
   layout.tsx, page.tsx, globals.css, sitemap.ts, robots.ts, opengraph-image.tsx
 components/
-  hero/Scene.tsx, hero/HeroScene.tsx   3D scene, loader, fallback, error boundary
-  Header, Hero, About, TechStack, Projects, EngineeringLab, Building,
+  hero/Scene.tsx, hero/HeroScene.tsx   3D network, loader, fallback, error boundary
+  Header, Hero, About, TechStack, Projects, EngineeringPlayground, Building,
   Experience, Achievements, Contact, Marquee, Tilt, Footer
   Providers, Splash, ScrollProgress, ScrollTop, Cursor, Reveal, SplitText,
   MagneticButton, ThemeToggle, ProjectVisual, SectionTitle
 lib/
-  site.ts, data.ts
+  site.ts, data.ts, simulations.ts
 ```
 
 ## Deployment

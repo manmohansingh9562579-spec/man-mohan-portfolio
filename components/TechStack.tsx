@@ -2,12 +2,12 @@
 
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Boxes, Braces, Database, Layout, Server, Wrench, type LucideIcon } from 'lucide-react';
+import { Boxes, Braces, Cloud, Database, Layout, Server, Sparkles, Wrench, type LucideIcon } from 'lucide-react';
 import Reveal from './Reveal';
 import SectionTitle from './SectionTitle';
 import { techGroups, techStack, type TechGroup } from '@/lib/data';
 
-const icons: Record<TechGroup, LucideIcon> = { Languages: Braces, Frontend: Layout, Backend: Server, Database: Database, Tools: Wrench };
+const icons: Record<TechGroup, LucideIcon> = { Languages: Braces, Frontend: Layout, Backend: Server, Database, Tools: Wrench, 'Cloud & Deployment': Cloud, 'AI / ML': Sparkles };
 
 export default function TechStack() {
   const [selected, setSelected] = useState(techStack.find((t) => t.name === 'TypeScript') ?? techStack[0]);

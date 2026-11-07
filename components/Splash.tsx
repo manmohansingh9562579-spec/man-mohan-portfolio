@@ -10,10 +10,15 @@ export default function Splash() {
     let seen = false;
     try { seen = sessionStorage.getItem('splash') === '1'; } catch { /* storage unavailable */ }
     if (seen) { setShow(false); return; }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setShow(false);
+      try { sessionStorage.setItem('splash', '1'); } catch { /* storage unavailable */ }
+      return;
+    }
     const timer = window.setTimeout(() => {
       setShow(false);
       try { sessionStorage.setItem('splash', '1'); } catch { /* storage unavailable */ }
-    }, 1500);
+    }, 680);
     return () => window.clearTimeout(timer);
   }, []);
 

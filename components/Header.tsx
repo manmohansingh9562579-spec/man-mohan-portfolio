@@ -45,7 +45,7 @@ export default function Header() {
           Man Mohan<span className="text-accent"> Singh</span>
         </Link>
 
-        <nav className="hidden items-center gap-6 lg:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-3 lg:flex" aria-label="Primary">
           {navLinks.map((l) => (
             <Link key={l.id} href={`/#${l.id}`} className={`relative py-1 text-sm transition ${active === l.id ? 'text-ink' : 'text-muted hover:text-ink'}`}>
               {l.label}
