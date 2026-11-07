@@ -10,7 +10,7 @@ export default function MagneticButton({ children, strength = 0.28, className = 
   const y = useSpring(useMotionValue(0), { stiffness: 220, damping: 16 });
 
   const move = (e: PointerEvent<HTMLDivElement>) => {
-    if (e.pointerType !== 'mouse' || !ref.current) return;
+    if (e.pointerType !== 'mouse' || !ref.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const r = ref.current.getBoundingClientRect();
     x.set((e.clientX - (r.left + r.width / 2)) * strength);
     y.set((e.clientY - (r.top + r.height / 2)) * strength);

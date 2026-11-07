@@ -49,7 +49,7 @@ export default function ProjectPage({ params }: { params: Params }) {
           </div>
         </Reveal>
 
-        <div className="mt-12"><ProjectVisual slug={p.slug} /></div>
+        <div className="mt-12"><ProjectVisual slug={p.slug} priority /></div>
 
         <div className="mt-16 grid gap-12 md:grid-cols-2">
           <Reveal><h2 className="eyebrow">The problem</h2><p className="mt-3 leading-relaxed text-muted">{p.problem}</p></Reveal>
