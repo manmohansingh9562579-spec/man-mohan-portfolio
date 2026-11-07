@@ -3,7 +3,7 @@ import SectionTitle from './SectionTitle';
 import { building, type BuildStatus } from '@/lib/data';
 
 const order: BuildStatus[] = ['Active', 'Planned', 'Completed'];
-const dot: Record<BuildStatus, string> = { Active: 'bg-accent animate-pulse', Planned: 'bg-accent2', Completed: 'bg-emerald-500' };
+const dot: Record<BuildStatus, string> = { Active: 'bg-accent status-motion-dot', Planned: 'bg-accent2', Completed: 'bg-emerald-500' };
 
 export default function Building() {
   return (

@@ -128,7 +128,8 @@ html.theme-transition *, html.theme-transition *::before, html.theme-transition 
 .hero-social { display: inline-flex; align-items: center; gap: .55rem; border: 1px solid rgb(var(--line)); border-radius: 999px; padding: .55rem .85rem; color: rgb(var(--muted)); font-size: .75rem; transition: color .2s, border-color .2s, background .2s; }
 .hero-social:hover, .hero-social:focus-visible { color: rgb(var(--ink)); border-color: rgb(var(--accent) / .7); background: rgb(var(--accent) / .08); outline: none; }
 .hero-terminal { width: min(100%, 380px); border: 1px solid rgb(var(--line) / .9); border-radius: 1rem; background: rgb(var(--surface) / .92); box-shadow: 0 24px 90px rgb(0 0 0 / .24); backdrop-filter: blur(12px); }
-.hero-signal-dot { width: 6px; height: 6px; border-radius: 50%; background: rgb(var(--accent2)); animation: signal-pulse 1.8s ease-in-out infinite; }
+.hero-signal-dot { width: 6px; height: 6px; border-radius: 50%; background: rgb(var(--accent2)); animation: status-breathe 3.8s cubic-bezier(.45, 0, .55, 1) infinite; }
+.status-motion-dot { animation: status-breathe 3.8s cubic-bezier(.45, 0, .55, 1) infinite; }
 .hero-orbit-label { position: absolute; color: rgb(var(--muted) / .65); font: 9px var(--font-mono, ui-monospace), monospace; letter-spacing: .18em; }
 .hero-orbit-label-top { top: 12%; right: 10%; }
 .hero-orbit-label-side { top: 48%; right: -2%; writing-mode: vertical-rl; }
@@ -169,16 +170,15 @@ html.theme-transition *, html.theme-transition *::before, html.theme-transition 
 .lab-progress-step { display: flex; min-width: 0; align-items: center; gap: .45rem; border-top: 2px solid rgb(var(--line)); padding-top: .6rem; color: rgb(var(--muted)); font: 9px var(--font-mono, ui-monospace), monospace; }
 .lab-progress-step span { color: rgb(var(--muted) / .6); }
 .lab-progress-step-done { border-color: rgb(var(--accent)); color: rgb(var(--ink)); }
-.lab-caret { display: inline-block; width: 7px; height: 1em; margin-left: 2px; vertical-align: text-bottom; background: rgb(var(--accent2)); animation: caret-blink 1s steps(2) infinite; }
+.lab-caret { display: inline-block; width: 7px; height: 1em; margin-left: 2px; vertical-align: text-bottom; border-radius: 1px; background: rgb(var(--accent2)); opacity: .85; }
 .lab-flow-node { position: relative; z-index: 1; min-height: 83px; border: 1px solid rgb(var(--line)); border-radius: .8rem; background: rgb(var(--bg)); padding: .85rem .65rem; transition: border-color .25s, background .25s, box-shadow .25s; }
 .lab-flow-node-active { border-color: rgb(var(--accent) / .9); background: rgb(var(--accent) / .1); box-shadow: 0 0 18px rgb(var(--accent) / .11); }
 .lab-db-track { position: relative; height: 2px; margin: 1.6rem .3rem 0; background: rgb(var(--line)); }
 .lab-db-track span { position: relative; display: block; height: 100%; background: rgb(var(--accent)); box-shadow: 0 0 10px rgb(var(--accent) / .45); }
 .lab-pipeline-stage summary::-webkit-details-marker { display: none; }
 .lab-pipeline-complete summary { border-color: rgb(var(--accent) / .48); }
-@keyframes signal-pulse { 50% { opacity: .35; box-shadow: 0 0 0 5px rgb(var(--accent2) / .06); } }
+@keyframes status-breathe { 0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgb(var(--accent2) / 0); } 50% { transform: scale(1.16); box-shadow: 0 0 0 4px rgb(var(--accent2) / .12); } }
 @keyframes packet-drift { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(85px, 55px); } }
-@keyframes caret-blink { 50% { opacity: 0; } }
 @keyframes lab-workbench-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
 @media (max-width: 767px) {
@@ -188,6 +188,6 @@ html.theme-transition *, html.theme-transition *::before, html.theme-transition 
   .lab-progress-step { flex-direction: column; align-items: flex-start; gap: .25rem; font-size: 8px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-fallback-line, .hero-fallback-packet, .hero-signal-dot, .hero-scroll-arrow, .lab-caret, .lab-workbench-enter { animation: none !important; }
+  .hero-fallback-line, .hero-fallback-packet, .hero-signal-dot, .status-motion-dot, .hero-scroll-arrow, .lab-workbench-enter { animation: none !important; }
   .lab-tab:hover, .lab-node:hover { transform: none; }
 }
