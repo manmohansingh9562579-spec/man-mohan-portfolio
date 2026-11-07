@@ -22,12 +22,23 @@ export default function Header() {
     );
     sections.forEach((s) => observer.observe(s));
     let previousY = window.scrollY;
+    let lastDirection = 0;
+    let directionDistance = 0;
     const onScroll = () => {
       const currentY = window.scrollY;
+      const delta = currentY - previousY;
+      const direction = Math.sign(delta);
       if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 8) setActive('contact');
-      if (currentY < 120) setHidden(false);
-      else if (currentY > previousY + 4) setHidden(true);
-      else if (currentY < previousY - 4) setHidden(false);
+      if (direction !== 0) {
+        directionDistance = direction === lastDirection ? directionDistance + Math.abs(delta) : Math.abs(delta);
+        lastDirection = direction;
+      }
+      if (currentY < 120) { setHidden(false); directionDistance = 0; }
+      else if (directionDistance > 14) {
+        if (direction > 0) setHidden(true);
+        else if (direction < 0) setHidden(false);
+        directionDistance = 0;
+      }
       previousY = currentY;
     };
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -44,7 +55,7 @@ export default function Header() {
     <motion.header
       className="fixed inset-x-0 top-0 z-50 border-b border-line/70 bg-bg/70 backdrop-blur-md"
       animate={{ y: hidden && !open ? '-105%' : '0%' }}
-      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ type: 'spring', stiffness: 340, damping: 34, mass: 0.7 }}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link href="/#home" className="font-display text-lg font-semibold tracking-tight">
@@ -78,10 +89,10 @@ export default function Header() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
           >
             {navLinks.map((l, i) => (
-              <motion.div key={l.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.04 + i * 0.05, ease: [0.16, 1, 0.3, 1] }}>
+              <motion.div key={l.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: 0.02 + i * 0.025, ease: [0.22, 1, 0.36, 1] }}>
                 <Link href={`/#${l.id}`} onClick={() => setOpen(false)} className={`block border-b border-line py-4 font-display text-2xl ${active === l.id ? 'text-accent' : 'text-ink'}`}>{l.label}</Link>
               </motion.div>
             ))}
