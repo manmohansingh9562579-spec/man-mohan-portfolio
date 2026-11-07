@@ -1,29 +1,9 @@
-'use client';
-
-import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { animate, motion, useInView } from 'framer-motion';
 import { ArrowUpRight, Github } from 'lucide-react';
 import Reveal from './Reveal';
 import SectionTitle from './SectionTitle';
-import Tilt from './Tilt';
 import ProjectVisual from './ProjectVisual';
 import { projects } from '@/lib/data';
-
-/** Counts the project number up from 0 when it scrolls into view. */
-function CountNumber({ value }: { value: number }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.6 });
-  const [n, setN] = useState(0);
-
-  useEffect(() => {
-    if (!inView) return;
-    const controls = animate(0, value, { duration: 0.9, ease: 'easeOut', onUpdate: (v) => setN(Math.round(v)) });
-    return () => controls.stop();
-  }, [inView, value]);
-
-  return <span ref={ref}>{String(n).padStart(2, '0')}</span>;
-}
 
 export default function Projects() {
   return (
@@ -37,12 +17,12 @@ export default function Projects() {
             <article key={p.slug} className={`grid items-center gap-8 md:grid-cols-12 md:gap-12 ${i % 2 ? 'md:mt-4' : ''}`}>
               <Reveal direction={flip ? 'right' : 'left'} className={`md:col-span-7 ${flip ? 'md:order-2' : ''}`}>
                 <Link href={`/projects/${p.slug}`} aria-label={`Open the ${p.name} project page`} className="group block" data-cursor>
-                  <Tilt><ProjectVisual slug={p.slug} /></Tilt>
+                  <ProjectVisual slug={p.slug} />
                 </Link>
               </Reveal>
 
               <Reveal delay={0.1} className={`md:col-span-5 ${flip ? 'md:order-1' : ''}`}>
-                <p className="font-display text-7xl font-bold leading-none text-transparent [-webkit-text-stroke:1.5px_rgb(var(--accent)/0.55)] md:text-8xl" aria-hidden><CountNumber value={p.number} /></p>
+                <p className="font-display text-7xl font-bold leading-none text-transparent [-webkit-text-stroke:1.5px_rgb(var(--accent)/0.55)] md:text-8xl" aria-hidden>{String(p.number).padStart(2, '0')}</p>
                 <div className="mt-4 flex flex-wrap items-center gap-3">
                   <span className="eyebrow">{p.category}</span>
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-line px-2.5 py-0.5 text-[11px] font-medium text-muted"><span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> {p.status}</span>
@@ -62,9 +42,9 @@ export default function Projects() {
         })}
       </div>
 
-      <motion.p className="mt-20 text-center text-sm text-muted" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+      <Reveal className="mt-20 text-center text-sm text-muted">
         More projects will appear here once their repositories and live links are ready to share.
-      </motion.p>
+      </Reveal>
     </section>
   );
 }

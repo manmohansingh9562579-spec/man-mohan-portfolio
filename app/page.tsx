@@ -9,7 +9,6 @@ const Building = dynamic(() => import('@/components/Building'));
 const Experience = dynamic(() => import('@/components/Experience'));
 const Achievements = dynamic(() => import('@/components/Achievements'));
 const Contact = dynamic(() => import('@/components/Contact'));
-import Marquee from '@/components/Marquee';
 import Footer from '@/components/Footer';
 
 export default function Home() {
@@ -19,7 +18,6 @@ export default function Home() {
       <main>
         <Hero />
         <About />
-        <Marquee />
         <TechStack />
         <Projects />
         <EngineeringPlayground />
