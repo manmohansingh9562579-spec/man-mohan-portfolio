@@ -1,8 +1,4 @@
-'use client';
-
 import Image from 'next/image';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
 import CodeWindow from './CodeWindow';
 import Reveal from './Reveal';
 import SectionTitle from './SectionTitle';
@@ -16,19 +12,15 @@ const blocks = [
 ];
 
 export default function About() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
-  const y = useTransform(scrollYProgress, [0, 1], [30, -30]);
-
   return (
     <section id="about" className="section">
       <SectionTitle eyebrow="01 / About" title="Curious by nature. Builder by practice." />
 
       <div className="mt-14 grid items-center gap-12 md:grid-cols-[0.8fr_1.2fr]">
         <Reveal direction="left">
-          <div ref={ref} className="relative mx-auto max-w-sm">
+          <div className="relative mx-auto max-w-sm">
             <div className="absolute inset-x-6 bottom-0 top-10 -z-10 rounded-[2rem] bg-gradient-to-b from-accent/20 via-accent2/10 to-transparent blur-2xl" aria-hidden />
-            <motion.div style={{ y }}>
+            <div>
               {/* The photo has a transparent background and fades out at the bottom, so it sits directly on the page */}
               <Image
                 src="/images/profile-cutout.webp"
@@ -38,7 +30,7 @@ export default function About() {
                 sizes="(max-width: 768px) 80vw, 380px"
                 className="h-auto w-full [mask-image:linear-gradient(to_bottom,#000_72%,transparent_100%)]"
               />
-            </motion.div>
+            </div>
           </div>
         </Reveal>
 

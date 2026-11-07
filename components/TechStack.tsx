@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Boxes, Braces, Cloud, Database, Layout, Server, Sparkles, Wrench, type LucideIcon } from 'lucide-react';
 import Reveal from './Reveal';
 import SectionTitle from './SectionTitle';
@@ -27,19 +27,17 @@ export default function TechStack() {
                   {techStack.filter((t) => t.group === group).map((t) => {
                     const on = selected.name === t.name;
                     return (
-                      <motion.button
+                      <button
                         key={t.name}
                         type="button"
                         onMouseEnter={() => setSelected(t)}
                         onFocus={() => setSelected(t)}
                         onClick={() => setSelected(t)}
-                        whileHover={{ y: -4 }}
-                        whileTap={{ scale: 0.96 }}
                         aria-pressed={on}
                         className={`group flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition ${on ? 'border-accent bg-accent/10 text-ink shadow-lg shadow-accent/10' : 'border-line bg-surface/70 text-muted hover:text-ink'}`}
                       >
-                        <Icon size={15} className="transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110" /> {t.name}
-                      </motion.button>
+                        <Icon size={15} /> {t.name}
+                      </button>
                     );
                   })}
                 </div>
@@ -50,8 +48,7 @@ export default function TechStack() {
 
         <Reveal direction="right">
           <div className="card min-h-[18rem] lg:sticky lg:top-24" aria-live="polite">
-            <AnimatePresence mode="wait">
-              <motion.div key={selected.name} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.22 }}>
+              <motion.div key={selected.name} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}>
                 <p className="eyebrow flex items-center gap-2"><Boxes size={14} /> {selected.group}</p>
                 <h3 className="mt-3 font-display text-3xl font-semibold">{selected.name}</h3>
                 <p className="mt-3 text-sm text-muted">{selected.blurb}</p>
@@ -60,7 +57,6 @@ export default function TechStack() {
                   <div><dt className="font-mono text-[11px] uppercase tracking-widest text-muted">In practice</dt><dd className="mt-1 leading-relaxed text-muted">{selected.detail}</dd></div>
                 </dl>
               </motion.div>
-            </AnimatePresence>
           </div>
         </Reveal>
       </div>
