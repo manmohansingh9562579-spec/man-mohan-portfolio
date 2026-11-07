@@ -76,7 +76,7 @@ function ArchitectureSimulation() {
                 <defs><marker id="arch-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0L6 3L0 6" className="lab-arrow" /></marker></defs>
                 <path d="M95 72H905" className="lab-flow-base" markerEnd="url(#arch-arrow)" />
               </svg>
-              <motion.span className="lab-flow-packet" animate={{ left: `${9.5 + (step * 20.25)}%` }} transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }} aria-hidden />
+              <span className="lab-flow-packet" style={{ left: `${9.5 + (step * 20.25)}%` }} aria-hidden />
               <div className="lab-architecture-nodes">
                 {nodes.map((node, index) => (
                   <button key={node.label} type="button" onClick={() => setSelected(index)} aria-pressed={selected === index} className={`lab-node ${selected === index ? 'lab-node-selected' : ''} ${step === index && playing ? 'lab-node-live' : ''}`}>
@@ -119,22 +119,10 @@ const codeSample = [
 ].join('\n');
 
 function CodeSimulation() {
-  const [typed, setTyped] = useState(0);
-  const [typing, setTyping] = useState(true);
   const [runState, setRunState] = useState<'ready' | 'running' | 'paused' | 'success' | 'error'>('ready');
   const [stage, setStage] = useState(0);
   const [emptySkills, setEmptySkills] = useState(false);
   const result = useMemo(() => calculateDemoMatch(), []);
-
-  useEffect(() => {
-    if (!typing) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setTyped(codeSample.length); setTyping(false); return; }
-    const timer = window.setInterval(() => setTyped((current) => {
-      if (current >= codeSample.length) { window.clearInterval(timer); setTyping(false); return current; }
-      return Math.min(current + 2, codeSample.length);
-    }), 18);
-    return () => window.clearInterval(timer);
-  }, [typing]);
 
   useEffect(() => {
     if (runState !== 'running') return;
@@ -146,14 +134,11 @@ function CodeSimulation() {
   }, [runState, stage, emptySkills]);
 
   const run = () => {
-    setTyped(codeSample.length);
-    setTyping(false);
     setStage(0);
     setRunState('running');
   };
-  const reset = () => { setRunState('ready'); setStage(0); setTyped(0); setTyping(true); };
-  const codeVisible = codeSample.slice(0, typed);
-  const highlighted = codeVisible.split(/("[^"\n]*"|\b(?:if|throw|new|const|return)\b|\/\/[^\n]*)/g).map((part, index) => {
+  const reset = () => { setRunState('ready'); setStage(0); };
+  const highlighted = codeSample.split(/("[^"\n]*"|\b(?:if|throw|new|const|return)\b|\/\/[^\n]*)/g).map((part, index) => {
     const cls = /^(if|throw|new|const|return)$/.test(part) ? 'text-accent' : part.startsWith('"') ? 'text-cyan-300' : part.startsWith('//') ? 'text-muted' : '';
     return <span key={index} className={cls}>{part}</span>;
   });
@@ -169,7 +154,7 @@ function CodeSimulation() {
             <span className="font-mono text-xs text-muted">matchingService.ts</span>
             <span className="ml-auto rounded-full border border-line px-2 py-1 font-mono text-[9px] tracking-widest text-muted">LOCAL PREVIEW</span>
           </div>
-          <pre className="min-h-[218px] overflow-x-auto px-5 py-5 font-mono text-xs leading-7 sm:text-sm" aria-label="TeamForge matching example code"><code>{highlighted}{typing && <span className="lab-caret" aria-hidden />}</code></pre>
+          <pre className="min-h-[218px] overflow-x-auto px-5 py-5 font-mono text-xs leading-7 sm:text-sm" aria-label="TeamForge matching example code"><code>{highlighted}</code></pre>
           <div className="border-t border-line px-5 py-4">
             <div className="flex flex-wrap items-center gap-3">
               <label className="flex items-center gap-2 text-xs text-muted"><input type="checkbox" checked={emptySkills} onChange={(event) => setEmptySkills(event.target.checked)} disabled={runState === 'running'} className="accent-cyan-400" /> Use empty skills (show validation error)</label>
@@ -241,7 +226,7 @@ function AlgorithmSimulation() {
               const found = frame.foundIndex === index;
               return <div key={`${index}-${value}`} className="flex h-full min-w-0 flex-1 max-w-16 flex-col items-center justify-end gap-2">
                 <span className={`font-mono text-[10px] ${active ? 'text-accent' : 'text-muted'}`}>{value}</span>
-                <motion.div layout transition={{ duration: 0.22 }} className={`w-full rounded-t-md border ${found ? 'border-emerald-300 bg-emerald-400/80' : active ? 'border-cyan-300 bg-cyan-400/70' : 'border-accent/50 bg-accent/30'}`} style={{ height: `${Math.max(12, value * 1.75)}px` }} />
+                <div className={`w-full rounded-t-md border ${found ? 'border-emerald-300 bg-emerald-400/80' : active ? 'border-cyan-300 bg-cyan-400/70' : 'border-accent/50 bg-accent/30'}`} style={{ height: `${Math.max(12, value * 1.75)}px` }} />
                 <span className="font-mono text-[9px] text-muted">{index}</span>
               </div>;
             })}
@@ -322,7 +307,7 @@ function DatabaseSimulation() {
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4" role="group" aria-label="Database operation">
             {dbOperations.map((item) => <button key={item.id} type="button" aria-pressed={operation === item.id} onClick={() => { setPlaying(false); setStep(0); setOperation(item.id); }} className={`lab-choice ${operation === item.id ? 'lab-choice-active' : ''}`}>{item.label}</button>)}
           </div>
-          <div className="lab-db-track" aria-hidden><motion.span animate={{ width: `${Math.round((step / 3) * 100)}%` }} transition={{ duration: 0.45 }} /></div>
+          <div className="lab-db-track" aria-hidden><span style={{ width: `${Math.round((step / 3) * 100)}%` }} /></div>
           <div className="relative mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-3">
             {pathLabels.map((label, index) => <div key={label} className={`lab-flow-node ${step === index && playing ? 'lab-flow-node-active' : ''}`}><span className="font-mono text-[9px] tracking-widest text-accent">0{index + 1}</span><span className="mt-2 block font-display text-xs font-semibold">{label}</span></div>)}
           </div>
@@ -382,7 +367,7 @@ function PipelineSimulation() {
           <span className="font-mono text-[10px] text-cyan-100" aria-live="polite">{step === pipelineStages.length - 1 ? 'SIMULATION COMPLETE' : playing ? 'RUNNING SAMPLE' : 'READY'}</span>
         </div>
         <div className="h-1.5 overflow-hidden rounded-full bg-line" role="progressbar" aria-label="Simulated deployment progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={step < 0 ? 0 : Math.round(((step + 1) / pipelineStages.length) * 100)}>
-          <motion.div className="h-full rounded-full bg-accent" animate={{ width: `${step < 0 ? 0 : ((step + 1) / pipelineStages.length) * 100}%` }} transition={{ duration: 0.45 }} />
+          <div className="h-full rounded-full bg-accent" style={{ width: `${step < 0 ? 0 : ((step + 1) / pipelineStages.length) * 100}%` }} />
         </div>
         <div className="mt-6 space-y-2">
           {pipelineStages.map((stage, index) => {
@@ -429,9 +414,9 @@ export default function EngineeringPlayground() {
             <span className="flex items-center gap-2"><Icon size={15} /><span>{label}</span></span><span className="font-mono text-[9px] tracking-widest text-muted">{number}</span>
           </button>)}
         </div>
-        <div key={activeTool} className="lab-workbench lab-workbench-enter mt-5">
+        <motion.div key={activeTool} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }} className="lab-workbench mt-5">
           <ActivePanel />
-        </div>
+        </motion.div>
         <div className="mt-5 flex items-center gap-2 text-[10px] text-muted"><Sparkles size={13} className="text-accent" /> Reduced-motion preferences are respected; every control also works by keyboard.</div>
       </Reveal>
     </section>

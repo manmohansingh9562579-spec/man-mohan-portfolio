@@ -20,8 +20,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { themeColor: [{ media: '(prefers-color-scheme: light)', color: '#f6f7fb' }, { media: '(prefers-color-scheme: dark)', color: '#070a14' }] };
 
-// Runs before first paint: applies the saved theme (default dark) and skips the splash if already shown this session.
-const bootScript = `(function(){var d=document.documentElement;try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}d.setAttribute('data-theme',t);}catch(e){d.setAttribute('data-theme','dark');}try{if(sessionStorage.getItem('splash')==='1'){d.classList.add('splash-seen');}}catch(e){}})();`;
+// Runs before first paint to apply the saved theme (or the device preference).
+const bootScript = `(function(){var d=document.documentElement;try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}d.setAttribute('data-theme',t);}catch(e){d.setAttribute('data-theme','dark');}})();`;
 
 const personJsonLd = {
   '@context': 'https://schema.org',
@@ -45,7 +45,6 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
-        <noscript><style>{'.splash{display:none!important}'}</style></noscript>
       </head>
       <body className="font-sans"><Providers>{children}</Providers></body>
     </html>
