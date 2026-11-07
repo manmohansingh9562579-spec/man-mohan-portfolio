@@ -43,7 +43,7 @@ export default function Hero() {
           </p>
 
           <h1 className="max-w-3xl font-display text-[2.9rem] font-semibold leading-[0.98] tracking-[-0.055em] sm:text-6xl md:text-7xl lg:text-[5.4rem]">
-            Man Mohan<br /><span className="text-accent">Singh <span className="hero-wave" role="img" aria-label="waving hand">👋</span></span>
+            Man Mohan<br /><span className="text-accent">Singh</span>
           </h1>
           <p className="mt-7 font-mono text-xs uppercase tracking-[0.24em] text-muted sm:text-sm">
             <span className="text-accent">Build.</span> Engineer. Innovate.

@@ -99,7 +99,6 @@ html.theme-transition *, html.theme-transition *::before, html.theme-transition 
 .hero-fallback-node-core { fill: rgb(var(--accent2)); stroke: rgb(var(--accent2)); filter: drop-shadow(0 0 9px rgb(var(--accent2) / .65)); }
 .hero-fallback-label { position: absolute; bottom: 7%; right: 8%; color: rgb(var(--muted)); font: 9px var(--font-mono, ui-monospace), monospace; letter-spacing: .16em; }
 .hero-network-fallback { animation: developerfolio-float 6s ease-in-out infinite; will-change: transform; }
-.hero-wave { display: inline-block; transform-origin: 70% 70%; animation: developerfolio-wave 1.8s ease-in-out infinite; }
 .lab-workbench { border: 1px solid rgb(var(--line)); border-radius: 1.25rem; background: linear-gradient(145deg, rgb(var(--surface) / .88), rgb(var(--bg) / .82)); padding: clamp(1rem, 3vw, 2rem); }
 .lab-tab { display: flex; min-height: 48px; align-items: center; justify-content: space-between; gap: .5rem; border: 1px solid rgb(var(--line)); border-radius: .85rem; background: rgb(var(--surface) / .72); padding: .7rem .85rem; color: rgb(var(--muted)); font-size: .74rem; transition: border-color .2s, color .2s, background .2s; }
 .lab-tab:hover { color: rgb(var(--ink)); border-color: rgb(var(--accent) / .5); }
@@ -135,7 +134,6 @@ html.theme-transition *, html.theme-transition *::before, html.theme-transition 
 .lab-pipeline-stage summary::-webkit-details-marker { display: none; }
 .lab-pipeline-complete summary { border-color: rgb(var(--accent) / .48); }
 @keyframes developerfolio-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-@keyframes developerfolio-wave { 0%, 100% { transform: rotate(0deg); } 10% { transform: rotate(-10deg); } 20% { transform: rotate(12deg); } 30% { transform: rotate(-10deg); } 40% { transform: rotate(9deg); } 50% { transform: rotate(0deg); } }
 
 @media (max-width: 767px) {
   .hero-shell { background: linear-gradient(155deg, rgb(var(--bg) / .93) 16%, rgb(var(--bg) / .78) 62%, rgb(var(--bg) / .9)); }
@@ -144,5 +142,5 @@ html.theme-transition *, html.theme-transition *::before, html.theme-transition 
   .lab-progress-step { flex-direction: column; align-items: flex-start; gap: .25rem; font-size: 8px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-network-fallback, .hero-wave { animation: none !important; }
+  .hero-network-fallback { animation: none !important; }
 }
