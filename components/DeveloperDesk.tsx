@@ -71,20 +71,31 @@ function CodeCanvas() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const DPR = Math.min(window.devicePixelRatio || 1, 2);
-    const W = canvas.offsetWidth;
-    const H = canvas.offsetHeight;
-    canvas.width = W * DPR;
-    canvas.height = H * DPR;
-    ctx.scale(DPR, DPR);
+    let destroyed = false;
+    const DPR = Math.min(typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1, 2);
+    let W = Math.max(canvas.offsetWidth, 200);
+    let H = Math.max(canvas.offsetHeight, 120);
+    canvas.width = Math.round(W * DPR);
+    canvas.height = Math.round(H * DPR);
+
+    const updateSize = () => {
+      if (!canvas || destroyed) return;
+      const rect = canvas.getBoundingClientRect();
+      W = Math.max(rect.width, 200);
+      H = Math.max(rect.height, 120);
+      canvas.width = Math.round(W * DPR);
+      canvas.height = Math.round(H * DPR);
+    };
+
+    updateSize();
+    const ro = new ResizeObserver(() => updateSize());
+    if (canvas.parentElement) ro.observe(canvas.parentElement);
 
     const FONT_SIZE = 7.5;
     const LINE_H = 12;
     const PAD_TOP = 28;
     const PAD_LEFT = 10;
     const TERMINAL_H = 72;
-    const CODE_H = H - TERMINAL_H - 2;
-    const VISIBLE_LINES = Math.floor(CODE_H / LINE_H);
 
     let lastTime = 0;
     const CHAR_INTERVAL = 36;
@@ -93,11 +104,16 @@ function CodeCanvas() {
     const displayedLines: { text: string; color: string }[] = [];
 
     function drawFrame(ts: number) {
-      if (!ctx) return;
+      if (destroyed || !ctx) return;
       const s = stateRef.current;
       const delta = ts - lastTime;
       lastTime = ts;
 
+      const CODE_H = H - TERMINAL_H - 2;
+      const VISIBLE_LINES = Math.floor(CODE_H / LINE_H);
+
+      ctx.save();
+      ctx.scale(DPR, DPR);
       ctx.clearRect(0, 0, W, H);
 
       /* Background */
@@ -239,12 +255,17 @@ function CodeCanvas() {
       grd.addColorStop(1, 'rgba(0,0,0,0.12)');
       ctx.fillStyle = grd;
       ctx.fillRect(0, 0, W, H);
+      ctx.restore();
 
       frameRef.current = requestAnimationFrame(drawFrame);
     }
 
     frameRef.current = requestAnimationFrame(drawFrame);
-    return () => cancelAnimationFrame(frameRef.current);
+    return () => {
+      destroyed = true;
+      cancelAnimationFrame(frameRef.current);
+      ro.disconnect();
+    };
   }, []);
 
   return (
@@ -583,14 +604,21 @@ export default function DeveloperDesk() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
+  const pauseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   /* Natural typing pauses */
   useEffect(() => {
     if (prefersReduced) return;
     const interval = setInterval(() => {
       setTyping(false);
-      setTimeout(() => setTyping(true), 1200 + Math.random() * 1800);
+      if (pauseTimeoutRef.current) clearTimeout(pauseTimeoutRef.current);
+      pauseTimeoutRef.current = setTimeout(() => setTyping(true), 1200 + Math.random() * 1800);
     }, 6000 + Math.random() * 5000);
-    return () => clearInterval(interval);
+
+    return () => {
+      clearInterval(interval);
+      if (pauseTimeoutRef.current) clearTimeout(pauseTimeoutRef.current);
+    };
   }, [prefersReduced]);
 
   /* Pause rendering when tab is inactive */

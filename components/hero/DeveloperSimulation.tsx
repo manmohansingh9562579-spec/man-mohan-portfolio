@@ -1,45 +1,104 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion, AnimatePresence } from 'framer-motion';
-import { Terminal, Sparkles, CheckCircle2, Play, Pause, RotateCcw } from 'lucide-react';
+import { Sparkles, CheckCircle2, Play, Pause, Layers3, Monitor, Terminal } from 'lucide-react';
 
 /* ─── Real Code Sequence that builds the website ─── */
-const BUILD_STEPS = [
+interface CodeToken {
+  text: string;
+  color: string;
+}
+
+interface BuildStep {
+  phase: string;
+  file: string;
+  tokens: CodeToken[];
+  action: string;
+  badge: string;
+}
+
+const BUILD_STEPS: BuildStep[] = [
   {
     phase: '01 / INIT',
     file: 'app/layout.tsx',
-    code: 'const app = createPortfolio({ developer: "Man Mohan Singh" });',
-    action: 'Constructing root architecture & design tokens...',
-    component: 'wireframe',
+    tokens: [
+      { text: 'const ', color: '#c792ea' },
+      { text: 'app ', color: '#82aaff' },
+      { text: '= ', color: '#89ddff' },
+      { text: 'createPortfolio', color: '#82aaff' },
+      { text: '({ ', color: '#89ddff' },
+      { text: 'dev: ', color: '#ffcb6b' },
+      { text: '"Man Mohan Singh"', color: '#c3e88d' },
+      { text: ' });', color: '#89ddff' },
+    ],
+    action: 'Initializing root architecture & reactive layout...',
+    badge: 'BLUEPRINT MOUNTED',
   },
   {
     phase: '02 / NAVBAR',
     file: 'components/Header.tsx',
-    code: '<Header navItems={["About", "Projects", "Code"]} />',
+    tokens: [
+      { text: '<', color: '#89ddff' },
+      { text: 'Header ', color: '#f07178' },
+      { text: 'navItems', color: '#ffcb6b' },
+      { text: '={[', color: '#89ddff' },
+      { text: '"About"', color: '#c3e88d' },
+      { text: ', ', color: '#89ddff' },
+      { text: '"Projects"', color: '#c3e88d' },
+      { text: ', ', color: '#89ddff' },
+      { text: '"Code"', color: '#c3e88d' },
+      { text: ']} />', color: '#89ddff' },
+    ],
     action: 'Mounting glassmorphic floating navigation...',
-    component: 'navbar',
+    badge: 'NAVBAR ACTIVE',
   },
   {
     phase: '03 / HERO CARD',
     file: 'components/Hero.tsx',
-    code: '<Hero title="Man Mohan Singh" role="Software Engineer" />',
-    action: 'Rendering 3D hero showcase & interactive badges...',
-    component: 'heroCard',
+    tokens: [
+      { text: '<', color: '#89ddff' },
+      { text: 'Hero ', color: '#f07178' },
+      { text: 'title', color: '#ffcb6b' },
+      { text: '="Man Mohan Singh" ', color: '#c3e88d' },
+      { text: 'role', color: '#ffcb6b' },
+      { text: '="Software Engineer"', color: '#c3e88d' },
+      { text: ' />', color: '#89ddff' },
+    ],
+    action: 'Unfolding 3D hero showcase & interactive identity...',
+    badge: 'HERO RENDERED',
   },
   {
-    phase: '04 / ANALYTICS',
+    phase: '04 / TELEMETRY',
     file: 'components/Metrics.tsx',
-    code: '<SystemMetrics latency="14ms" uptime="99.98%" />',
-    action: 'Streaming live telemetry & performance charts...',
-    component: 'metrics',
+    tokens: [
+      { text: '<', color: '#89ddff' },
+      { text: 'SystemMetrics ', color: '#f07178' },
+      { text: 'latency', color: '#ffcb6b' },
+      { text: '="14ms" ', color: '#c3e88d' },
+      { text: 'uptime', color: '#ffcb6b' },
+      { text: '="99.98%"', color: '#c3e88d' },
+      { text: ' />', color: '#89ddff' },
+    ],
+    action: 'Streaming live telemetry & animated performance charts...',
+    badge: 'METRICS ONLINE',
   },
   {
-    phase: '05 / DEPLOY',
+    phase: '05 / PRODUCTION',
     file: 'deploy.config.ts',
-    code: 'export default deploy({ target: "Vercel", status: "LIVE" });',
+    tokens: [
+      { text: 'export default ', color: '#c792ea' },
+      { text: 'deploy', color: '#82aaff' },
+      { text: '({ ', color: '#89ddff' },
+      { text: 'target: ', color: '#ffcb6b' },
+      { text: '"Vercel"', color: '#c3e88d' },
+      { text: ', ', color: '#89ddff' },
+      { text: 'status: ', color: '#ffcb6b' },
+      { text: '"LIVE"', color: '#c3e88d' },
+      { text: ' });', color: '#89ddff' },
+    ],
     action: 'Build successful! 100% production ready.',
-    component: 'deployed',
+    badge: 'VERCEL DEPLOYED',
   },
 ];
 
@@ -47,125 +106,175 @@ const BUILD_STEPS = [
 function MonitorCanvas({ stepIndex, isTyping }: { stepIndex: number; isTyping: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameRef = useRef<number>(0);
+  const containerRef = useRef<HTMLDivElement>(null);
   const stateRef = useRef({
     charIndex: 0,
     cursorBlink: true,
-    tick: 0,
+    blinkTick: 0,
+    typingTick: 0,
   });
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
 
-    const DPR = Math.min(window.devicePixelRatio || 1, 2);
-    const W = canvas.offsetWidth;
-    const H = canvas.offsetHeight;
-    canvas.width = W * DPR;
-    canvas.height = H * DPR;
-    ctx.scale(DPR, DPR);
+    let destroyed = false;
+    const DPR = Math.min(typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1, 2);
 
-    const step = BUILD_STEPS[stepIndex] || BUILD_STEPS[0];
+    const updateSize = () => {
+      if (!canvas || destroyed) return;
+      const rect = canvas.getBoundingClientRect();
+      const W = Math.max(rect.width, 240);
+      const H = Math.max(rect.height, 140);
+      if (canvas.width !== Math.round(W * DPR) || canvas.height !== Math.round(H * DPR)) {
+        canvas.width = Math.round(W * DPR);
+        canvas.height = Math.round(H * DPR);
+      }
+    };
+
+    updateSize();
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateSize();
+    });
+    if (canvas.parentElement) {
+      resizeObserver.observe(canvas.parentElement);
+    }
+
     stateRef.current.charIndex = 0;
+    stateRef.current.typingTick = 0;
+    const currentTokens = BUILD_STEPS[stepIndex]?.tokens || BUILD_STEPS[0].tokens;
+    const totalChars = currentTokens.reduce((acc, t) => acc + t.text.length, 0);
 
-    let lastTime = 0;
+    let lastTime = performance.now();
 
     function render(ts: number) {
+      if (destroyed || !canvas) return;
+      const ctx = canvas.getContext('2d');
       if (!ctx) return;
-      const s = stateRef.current;
+
       const dt = ts - lastTime;
       lastTime = ts;
 
+      const W = canvas.width / DPR;
+      const H = canvas.height / DPR;
+
+      ctx.save();
+      ctx.scale(DPR, DPR);
       ctx.clearRect(0, 0, W, H);
 
-      // Background editor
-      ctx.fillStyle = '#070a0e';
+      // Editor background
+      ctx.fillStyle = '#070a0f';
       ctx.fillRect(0, 0, W, H);
 
       // Tab bar
-      ctx.fillStyle = '#0f141c';
+      ctx.fillStyle = '#0f141e';
       ctx.fillRect(0, 0, W, 22);
 
-      // Traffic dots
+      // Window controls (macOS style)
       ctx.fillStyle = '#ff5f56'; ctx.beginPath(); ctx.arc(10, 11, 3.5, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = '#ffbd2e'; ctx.beginPath(); ctx.arc(20, 11, 3.5, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = '#27c93f'; ctx.beginPath(); ctx.arc(30, 11, 3.5, 0, Math.PI * 2); ctx.fill();
 
       // Tab filename
-      ctx.fillStyle = '#65b8ff';
-      ctx.font = '8.5px ui-monospace, monospace';
-      ctx.fillText(step.file, 44, 14);
+      ctx.fillStyle = '#7dd3fc';
+      ctx.font = '9px ui-monospace, monospace';
+      ctx.fillText(BUILD_STEPS[stepIndex]?.file || 'Workspace.tsx', 44, 14.5);
 
       // Gutter
-      ctx.fillStyle = '#0d1117';
-      ctx.fillRect(0, 22, 22, H - 22);
+      ctx.fillStyle = '#0b0f16';
+      ctx.fillRect(0, 22, 24, H - 22);
 
-      // Code line numbers
+      // Line numbers
       ctx.fillStyle = '#3a4454';
       for (let i = 1; i <= 6; i++) {
-        ctx.fillText(String(i), 6, 36 + (i - 1) * 14);
+        ctx.fillText(String(i), 8, 38 + (i - 1) * 15);
       }
 
-      // Typing animation
-      if (s.charIndex < step.code.length) {
-        s.charIndex += 1;
+      // Static context lines
+      ctx.font = '9px ui-monospace, monospace';
+      ctx.fillStyle = '#c792ea';
+      ctx.fillText('import { createPortfolio } from "@/lib";', 30, 38);
+
+      ctx.fillStyle = '#546e7a';
+      ctx.fillText(`// Phase: ${BUILD_STEPS[stepIndex]?.phase}`, 30, 53);
+
+      // Variable burst typing logic (40-60ms per char)
+      const s = stateRef.current;
+      if (isTyping && s.charIndex < totalChars) {
+        s.typingTick += dt;
+        if (s.typingTick > 45) {
+          s.typingTick = 0;
+          s.charIndex += 1;
+        }
       }
 
-      // Cursor blink
-      s.tick += dt;
-      if (s.tick > 450) {
-        s.tick = 0;
+      // Cursor blinking
+      s.blinkTick += dt;
+      if (s.blinkTick > 480) {
+        s.blinkTick = 0;
         s.cursorBlink = !s.cursorBlink;
       }
 
-      // Render static code context
-      ctx.font = '8.5px ui-monospace, monospace';
-      ctx.fillStyle = '#c792ea';
-      ctx.fillText('import { createPortfolio } from "@/lib";', 28, 36);
+      // Render tokenized active line
+      let remainingToRender = s.charIndex;
+      let currentX = 30;
+      const lineY = 68;
 
-      ctx.fillStyle = '#546e7a';
-      ctx.fillText('// Phase: ' + step.phase, 28, 50);
-
-      // Active typed line
-      const typedText = step.code.slice(0, s.charIndex);
-      ctx.fillStyle = '#7dd3fc';
-      ctx.fillText(typedText, 28, 64);
-
-      // Blinking cursor
-      if (s.cursorBlink) {
-        const tw = ctx.measureText(typedText).width;
-        ctx.fillStyle = '#38bdf8';
-        ctx.fillRect(28 + tw + 1, 55, 5, 10);
+      for (const token of currentTokens) {
+        if (remainingToRender <= 0) break;
+        const textSlice = token.text.slice(0, remainingToRender);
+        ctx.fillStyle = token.color;
+        ctx.fillText(textSlice, currentX, lineY);
+        currentX += ctx.measureText(textSlice).width;
+        remainingToRender -= textSlice.length;
       }
 
-      // Output preview line
+      // Render typing cursor
+      if (s.cursorBlink && isTyping) {
+        ctx.fillStyle = '#38bdf8';
+        ctx.fillRect(currentX + 1, lineY - 9, 5, 11);
+      }
+
+      // Live status line
       ctx.fillStyle = '#a3e635';
-      ctx.fillText('→ ' + step.action, 28, 82);
+      ctx.font = '8.5px ui-monospace, monospace';
+      ctx.fillText(`→ ${BUILD_STEPS[stepIndex]?.action || 'Building...'}`, 30, 86);
 
-      // Terminal mini log
-      ctx.fillStyle = '#0b0f15';
-      ctx.fillRect(0, H - 38, W, 38);
-      ctx.fillStyle = '#1c2430';
-      ctx.fillRect(0, H - 38, W, 1);
+      // Bottom terminal panel
+      const termY = H - 36;
+      ctx.fillStyle = '#080c13';
+      ctx.fillRect(0, termY, W, 36);
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(0, termY, W, 1);
+
       ctx.fillStyle = '#4ade80';
-      ctx.fillText(`▲ [HMR] updated ${step.file}`, 8, H - 24);
+      ctx.font = '8px ui-monospace, monospace';
+      ctx.fillText(`▲ [HMR] compiled ${BUILD_STEPS[stepIndex]?.file} in 42ms`, 10, termY + 15);
       ctx.fillStyle = '#64748b';
-      ctx.fillText('Ready: http://localhost:3000', 8, H - 10);
+      ctx.fillText('Ready on http://localhost:3000 • 0 errors', 10, termY + 28);
 
+      ctx.restore();
       frameRef.current = requestAnimationFrame(render);
     }
 
     frameRef.current = requestAnimationFrame(render);
-    return () => cancelAnimationFrame(frameRef.current);
-  }, [stepIndex]);
+
+    return () => {
+      destroyed = true;
+      cancelAnimationFrame(frameRef.current);
+      resizeObserver.disconnect();
+    };
+  }, [stepIndex, isTyping]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="h-full w-full rounded"
-      style={{ display: 'block' }}
-    />
+    <div ref={containerRef} className="h-full w-full">
+      <canvas
+        ref={canvasRef}
+        className="h-full w-full rounded"
+        style={{ display: 'block', width: '100%', height: '100%' }}
+      />
+    </div>
   );
 }
 
@@ -295,7 +404,7 @@ function HolographicWebsite({ stepIndex }: { stepIndex: number }) {
         </AnimatePresence>
       </div>
 
-      {/* Ambient floating tech tags around the build */}
+      {/* Ambient floating tech badges */}
       <motion.div
         className="holo-pill pill-top"
         animate={{ y: [0, -6, 0] }}
@@ -308,13 +417,13 @@ function HolographicWebsite({ stepIndex }: { stepIndex: number }) {
         animate={{ y: [0, 7, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
       >
-        <span>Tailwind · R3F</span>
+        <span>Tailwind · Canvas</span>
       </motion.div>
     </div>
   );
 }
 
-/* ─── Realistic 3D Workspace Scene (Desk, Chair, Developer, Lamp, Screens) ─── */
+/* ─── High-Fidelity 3D Workspace Scene (Desk, Chair, Developer, Lamp, Screens) ─── */
 function StudioDesk({
   stepIndex,
   isTyping,
@@ -348,7 +457,7 @@ function StudioDesk({
               </div>
               <div className="mt-1 space-y-1 text-slate-400">
                 <p className="text-emerald-400">✓ git branch main</p>
-                <p>▸ webpack built</p>
+                <p>▸ webpack ready</p>
                 <p>▸ 100% test pass</p>
                 <p className="text-cyan-400">● Live preview on</p>
               </div>
@@ -409,15 +518,22 @@ function StudioDesk({
         </div>
       </div>
 
-      {/* ── Realistic Developer Character in Chair ── */}
+      {/* ── Realistic Developer Character in Ergonomic Chair ── */}
       <div className="studio-developer-group">
-        {/* Ergonomic High-End Mesh Chair */}
+        {/* Ergonomic Mesh Chair with Pelvis Seat, Backrest and Armrests */}
         <div className="studio-chair">
           <div className="chair-cushion-head" />
           <div className="chair-mesh-back" />
           <div className="chair-armrest-left" />
           <div className="chair-armrest-right" />
+          <div className="chair-seat-cushion" />
           <div className="chair-swivel-base" />
+        </div>
+
+        {/* Lower Body (Thighs/Knees connecting to chair) */}
+        <div className="dev-lower-body">
+          <div className="dev-thigh thigh-l" />
+          <div className="dev-thigh thigh-r" />
         </div>
 
         {/* Developer Torso & Clothes */}
@@ -429,26 +545,30 @@ function StudioDesk({
           <div className="dev-hoodie-core" />
           <div className="dev-hoodie-strings" />
 
-          {/* Left Arm typing on keyboard */}
+          {/* Left Arm with articulable elbow & wrist over keyboard */}
           <motion.div
             className="dev-limb arm-l"
-            animate={isTyping ? { rotate: [-2, 3, -2], y: [0, -1, 0] } : { rotate: 0 }}
+            animate={isTyping ? { rotate: [-3, 4, -3], y: [0, -1.2, 0] } : { rotate: 0 }}
             transition={{ duration: 0.38, repeat: Infinity, ease: 'easeInOut' }}
           >
-            <div className="dev-hand-left" />
+            <div className="dev-forearm">
+              <div className="dev-hand-left" />
+            </div>
           </motion.div>
 
-          {/* Right Arm typing on keyboard */}
+          {/* Right Arm with articulable elbow & wrist over keyboard */}
           <motion.div
             className="dev-limb arm-r"
-            animate={isTyping ? { rotate: [3, -2, 3], y: [0, -1, 0] } : { rotate: 0 }}
+            animate={isTyping ? { rotate: [4, -3, 4], y: [0, -1.2, 0] } : { rotate: 0 }}
             transition={{ duration: 0.35, repeat: Infinity, ease: 'easeInOut', delay: 0.08 }}
           >
-            <div className="dev-hand-right" />
+            <div className="dev-forearm">
+              <div className="dev-hand-right" />
+            </div>
           </motion.div>
         </motion.div>
 
-        {/* Developer Head & Face with Natural Movement */}
+        {/* Developer Head & Face with Anatomical Neck Posture */}
         <motion.div
           className="dev-character-head-group"
           animate={{
@@ -493,24 +613,32 @@ export default function DeveloperSimulation() {
   const [stepIndex, setStepIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
+  const pauseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Auto-advance through build steps as the developer codes
   useEffect(() => {
     if (prefersReduced || !isAutoPlay) return;
     const interval = setInterval(() => {
       setStepIndex((prev) => (prev + 1) % BUILD_STEPS.length);
-    }, 3800);
+    }, 4200);
     return () => clearInterval(interval);
   }, [prefersReduced, isAutoPlay]);
 
-  // Subtle natural pauses in typing
+  // Subtle natural pauses in typing with clean timer lifecycle cleanup
   useEffect(() => {
     if (prefersReduced) return;
     const pauseTimer = setInterval(() => {
       setIsTyping(false);
-      setTimeout(() => setIsTyping(true), 1000 + Math.random() * 1200);
+      if (pauseTimeoutRef.current) clearTimeout(pauseTimeoutRef.current);
+      pauseTimeoutRef.current = setTimeout(() => {
+        setIsTyping(true);
+      }, 1000 + Math.random() * 1200);
     }, 5500);
-    return () => clearInterval(pauseTimer);
+
+    return () => {
+      clearInterval(pauseTimer);
+      if (pauseTimeoutRef.current) clearTimeout(pauseTimeoutRef.current);
+    };
   }, [prefersReduced]);
 
   // Mouse Parallax for 3D Depth
