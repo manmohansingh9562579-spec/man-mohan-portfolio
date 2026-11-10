@@ -18,6 +18,7 @@ export const navLinks = [
   { label: 'Skills', id: 'skills' },
   { label: 'Projects', id: 'projects' },
   { label: 'Playground', id: 'playground' },
+  { label: 'Behind The Code', id: 'behind-the-code' },
   { label: 'Experience', id: 'experience' },
   { label: 'Achievements', id: 'achievements' },
   { label: 'Contact', id: 'contact' },

@@ -5,6 +5,7 @@ import About from '@/components/About';
 import TechStack from '@/components/TechStack';
 import Projects from '@/components/Projects';
 const EngineeringPlayground = dynamic(() => import('@/components/EngineeringPlayground'));
+const DeveloperDesk = dynamic(() => import('@/components/DeveloperDesk'));
 const Building = dynamic(() => import('@/components/Building'));
 const Experience = dynamic(() => import('@/components/Experience'));
 const Achievements = dynamic(() => import('@/components/Achievements'));
@@ -21,6 +22,7 @@ export default function Home() {
         <TechStack />
         <Projects />
         <EngineeringPlayground />
+        <DeveloperDesk />
         <Building />
         <Experience />
         <Achievements />
